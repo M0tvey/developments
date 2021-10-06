@@ -14,7 +14,7 @@
       particleMaxVelocity: 0.5,
       lineLingth: 70,
       particleLife: 6,
-      bigRadius: 180,
+      bigRadius: 200,
       maxLinesCount: 4
     },
     reDrawBackground = _=> {
