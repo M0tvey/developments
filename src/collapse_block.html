@@ -1,0 +1,157 @@
+//= templates/header-inner.html
+</header>
+
+<body>
+
+  <div class="wrap">
+    //= templates/blocks/mmenu-header.html
+  </div>
+
+  <div class="container">
+    <div class="js-collapse-block">
+      <div class="collapse-block__txt hidden-txt">
+        <div class="collapse-block__txt--item" data-min-height="60">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+        </div>
+      </div>
+
+      <a href="javascript:void(0)" class="collapse-block__btn js-collapse-btn" data-show="Подробнее" data-hide="Скрыть">
+        <span>Подробнее</span>
+      </a>
+    </div>
+
+    <div class="insruction">
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">HTML</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-xml"><div class="js-collapse-block" data-active="xs">
+  <div class="collapse-block__txt hidden-txt">
+    <div class="collapse-block__txt--item" data-min-height="60">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+  </div>
+
+  <a href="javascript:void(0)" class="collapse-block__btn js-collapse-btn" data-show="Подробнее" data-hide="Скрыть">
+    <span>Подробнее</span>
+  </a>
+</div></code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">SCSS</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-css">.collapse-block {
+  &__txt {
+    transition: all 1s ease;
+    overflow: hidden;
+
+    &--item {
+      overflow: visible;
+    }
+
+    &.hidden-txt {
+      transition: all 1s ease;
+      overflow: hidden;
+      position: relative;
+
+      & ~ .collapse-block__btn .icon {
+        transform: rotate(0);
+      }
+    }
+  }
+
+  &__btn {
+    &:hover {
+      text-decoration: none;
+    }
+
+    .icon {
+      fill: #000;
+      width: 15px;
+      height: .6em;
+      margin-left: 10px;
+      transform: rotate(180deg);
+      @include transition;
+    }
+  }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">JS</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-javascript">(_=>{
+  function collapseBlock() {
+    const hideClass = 'hidden-txt';
+
+    $('.collapse-block__txt--item').each(function () {
+      const $collapseBlock = $(this).closest('.js-collapse-block'),
+        sctiveWidth = $collapseBlock.data('active'),
+        minHeight = $(this).data('min-height') ? $(this).data('min-height') : 85,
+        $textBlock = $collapseBlock.find('.collapse-block__txt'),
+        $bttn = $collapseBlock.find('.js-collapse-btn');
+
+
+      if (sctiveWidth) {
+        $bttn.hide();
+        $textBlock.removeClass(hideClass);
+        if ($(this).height() > minHeight && innerWidth < breakpoints[sctiveWidth]) {
+          $bttn.show();
+          $textBlock.addClass(hideClass);
+          $textBlock.css('height', minHeight);
+        } else {
+          $textBlock.css('height', 'auto');
+        }
+      } else {
+        if ($(this).height() < minHeight) {
+          $bttn.hide();
+          $textBlock.removeClass(hideClass);
+        } else {
+          $textBlock.css('height', minHeight);
+        }
+      }
+
+      $bttn.on('click', function () {
+        var showMore = $(this).data('show');
+        var hideMore = $(this).data('hide');
+        var $blockTxt = $collapseBlock.find('.collapse-block__txt');
+        var $blockTxtItem = $blockTxt.find('.collapse-block__txt--item');
+        var txtHeight = $blockTxtItem.height();
+        const minHeight = $blockTxtItem.data('min-height') ? $blockTxtItem.data('min-height') : 85,
+          $textBlock = $(this).find('span').length ? $(this).find('span') : $(this);
+
+        if ($blockTxt.hasClass('hidden-txt')) {
+          $textBlock.text(hideMore);
+          $blockTxt.height(txtHeight);
+          $blockTxt.removeClass('hidden-txt');
+        } else {
+          $textBlock.text(showMore);
+          $blockTxt.addClass('hidden-txt').height(minHeight)
+        }
+      });
+    });
+  }
+
+  collapseBlock();
+  $(window).resize(function () {
+    collapseBlock()
+  });
+})();</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  //= templates/blocks/mmenu-footer.html
+  //= templates/footer.html

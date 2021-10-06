@@ -1,0 +1,35 @@
+.collapse-block {
+  &__txt {
+    transition: all 1s ease;
+    overflow: hidden;
+
+    &--item {
+      overflow: visible;
+    }
+
+    &.hidden-txt {
+      transition: all 1s ease;
+      overflow: hidden;
+      position: relative;
+
+      & ~ .collapse-block__btn .icon {
+        transform: rotate(0);
+      }
+    }
+  }
+
+  &__btn {
+    &:hover {
+      text-decoration: none;
+    }
+
+    .icon {
+      fill: #000;
+      width: 15px;
+      height: .6em;
+      margin-left: 10px;
+      transform: rotate(180deg);
+      @include transition;
+    }
+  }
+}

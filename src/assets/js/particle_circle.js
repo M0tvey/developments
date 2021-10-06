@@ -1,6 +1,6 @@
 // -------------------------------- particles animation --------------------------------
 (_=>{
-  const wrap = document.querySelector('.particles_block');
+  const wrap = document.querySelector('.particles_circle');
   if (!wrap) return;
 
   const canvas = document.createElement('canvas'),
