@@ -1,36 +1,477 @@
-<html><head></head><body>//= templates/header-inner.html
-<script src="https://api-maps.yandex.ru/2.1/?apikey=865714b7-1fc0-49e4-ac3d-b917e31ad8de&amp;lang=ru_RU" type="text/javascript"></script>
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Заголовок</title>
+  <meta name="description" content>
+
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/assets/css/main.min.css">
+<script src="https://api-maps.yandex.ru/2.1/?apikey=865714b7-1fc0-49e4-ac3d-b917e31ad8de&lang=ru_RU" type="text/javascript"></script>
 
 
+</head><body>
 
-<div class="wrap">
-  //= templates/blocks/mmenu-header.html
+  <div class="wrap">
+    <a href="#menu" class="d-flex mob-icon" data-phone>
+      <div id="my-header" class="mob-menu">
+        <div class="burger">
+          <button class="mburger mburger--tornado">
+            <b></b>
+            <b></b>
+            <b></b>
+          </button>
+          <span>menu</span>
+        </div>
+      </div>
+    </a>
 
-<div class="container">
-<!-- 
+
+    <!-- 
   <svg class="icon" width="35" height="49" fill="#000">
     <use xlink:href="/assets/img/svg/sprite.svg#iconId"></use>
   </svg>
  -->
 
-  <!-- start core map -->
-  <div class="js_core-map_wrap"></div>
-  <!-- end core map -->
+    <!-- start core map -->
+    <div class="js_core-map_wrap"></div>
+    <!-- end core map -->
 
-  <div class="insruction">
-    <div class="insruction_text">
+    <div class="insruction">
+      <div class="insruction_item">
+        <h2 class="insruction_title">Файлы</h2>
+
+        <div class="insruction_code">
+          <ul class="insruction_list">
+            <li class="insruction_list_item">
+              <span class="insruction_list_title">scss </span>
+              <pre><code class="language-scss hljs"> <span class="hljs-keyword">@import</span> <span class="hljs-string">'_core_map.scss'</span>;</code></pre>
+            </li>
+
+            <li class="insruction_list_item">
+              <span class="insruction_list_title">js </span>
+              <pre><code class="language-xml hljs"><span class="hljs-symbol">'src/assets/js/core_map.js</span>'</code></pre>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">HTML</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-xml hljs">&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"js_core-map_wrap"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">JS</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-javascript hljs"><span class="hljs-keyword">const</span> myCoreMap = <span class="hljs-keyword">new</span> coreMap({ <span class="hljs-comment">/* options */</span> }); </code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">Опции</h2>
+
+        <div class="insruction_code">
+          <ul class="insruction_option_list">
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-javascript hljs"><span class="hljs-attribute">wrapClassElement</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"js_core-map_wrap"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Класс елемента где будет распологаться карта.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">cordsIconHref</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"/core_map.json"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Путь к json файл с метками.<br>
+                <pre><code class="language-json hljs">[
+  {
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Название"</span>,
+    <span class="hljs-attr">"phones"</span>: [<span class="hljs-string">"Телефоны"</span>],
+    <span class="hljs-attr">"text"</span>: <span class="hljs-string">"Адрес"</span>,
+    <span class="hljs-attr">"time"</span>: <span class="hljs-string">"Время работы"</span>,
+    <span class="hljs-attr">"coordinates"</span>: [<span class="hljs-string">"Координаты (ообязательно)"</span>],
+    <span class="hljs-attr">"images"</span>: [
+      {<span class="hljs-attr">"src"</span>: <span class="hljs-string">"src картинки"</span>, <span class="hljs-attr">"alt"</span>: <span class="hljs-string">"alt картинки"</span>},
+      {<span class="hljs-attr">"src"</span>: <span class="hljs-string">"src картинки"</span>, <span class="hljs-attr">"alt"</span>: <span class="hljs-string">"alt картинки"</span>}
+    ]
+  }
+]</code></pre></div>
+          </li>
+
+          <li class="insruction_option_item">
+            <div class="insruction_option_name"><pre><code class="language-js hljs"><span class="hljs-attribute">iconImageHref</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"/assets/img/map_icon.png"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Путь к своему изображению иконки маркера.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">changeIconImageOnClick</span></code></pre>
+              </div>
+              <div class="insruction_option_type">object</div>
+              <div class="insruction_option_default"></div>
+              <div class="insruction_option_descripton">Настройки смены картинки маркера по клику.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">changeIcon</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">true</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Менять ли картинку маркера при клике?</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">imageHref</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"/assets/img/map_icon_active.png"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Путь к своему изображению маркера при клике.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">customHtmlIcon</span></code></pre>
+              </div>
+              <div class="insruction_option_type">object</div>
+              <div class="insruction_option_default"></div>
+              <div class="insruction_option_descripton">Настройки кастомного html маркера.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">isCustom</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">false</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Использовать кастомный HTML маркера?<br>! Если используете html
+                то
+                <pre class="text"><code class="language-js hljs"><span class="hljs-attribute">iconImageHref</span></code></pre> и
+                <pre class="text"><code class="language-js hljs"><span class="hljs-attribute">changeIconImageOnClick</span></code></pre> не работают.
+              </div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">iconHtml</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewbox</span>=<span class="hljs-string">"0 0 42 56"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"42"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"56"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">defs</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter</span> <span class="hljs-attr">color-interpolation-filters</span>=<span class="hljs-string">"sRGB"</span> <span class="hljs-attr">filterunits</span>=<span class="hljs-string">"userSpaceOnUse"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"20.1538"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"52"</span> <span class="hljs-attr">y</span>=<span class="hljs-string">"39.8462"</span> <span class="hljs-attr">x</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"filter0_f"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">fegaussianblur</span> <span class="hljs-attr">stddeviation</span>=<span class="hljs-string">"2.5"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">defs</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_1"</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">"null"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"#525252"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"m21.000001,54.999999c12.797251,-2.8169 19.195876,-4.9284 19.195876,-6.3346c0,-2.1093 -8.594268,-3.8192 -19.195876,-3.8192c-10.601608,0 -19.195876,1.7099 -19.195876,3.8192c0,1.4062 6.398625,3.5177 19.195876,6.3346z"</span> <span class="hljs-attr">clip-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">fill-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"url(#filter0_f)"</span> <span class="hljs-attr">opacity</span>=<span class="hljs-string">"0.35"</span>/&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_2"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"m21,55c14,-15.2583 21,-26.6959 21,-34.3127c0,-11.42529 -9.402,-20.6873 -21,-20.6873c-11.59798,0 -21,9.26201 -21,20.6873c0,7.6168 7,19.0544 21,34.3127z"</span> <span class="hljs-attr">clip-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">fill-rule</span>=<span class="hljs-string">"evenodd"</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">use</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_3"</span> <span class="hljs-attr">xlink:href</span>=<span class="hljs-string">"#icon"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Кастомный HTML маркера.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">coordinates</span></code></pre>
+              </div>
+              <div class="insruction_option_type">array</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs">[[[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">-15</span>, <span class="hljs-number">-19</span>], [<span class="hljs-number">-20</span>, <span class="hljs-number">-33</span>], [<span class="hljs-number">-14</span>, <span class="hljs-number">-47</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">-54</span>], [<span class="hljs-number">14</span>, <span class="hljs-number">-47</span>], [<span class="hljs-number">20</span>, <span class="hljs-number">-33</span>], [<span class="hljs-number">15</span>, <span class="hljs-number">-19</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]]</code></pre>
+              </div>
+              <div class="insruction_option_descripton">Полигон описывается в виде трехмерного массива. Массив верхнего
+                уровня содержит контуры полигона. Первый элемента массива - это внешний контур, а остальные -
+                внутренние.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">showBalloon</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">false</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Показывать информацию в балуне или в оьдельном блоке?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">appearanceEffect</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"fade"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Эффект появления информации в блоке.<br>Может прнемать значения
+                <pre class="text"><code class="language-js hljs"><span class="hljs-string">"fade"</span></code></pre>,
+                <pre class="text"><code class="language-js hljs"><span class="hljs-string">"slide"</span></code></pre>
+              </div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">blockSide</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"left"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">С какой стороны будет показыватся блок с информацией?<br>Может
+                прнемать значения
+                <pre class="text"><code class="language-js hljs"><span class="hljs-string">"left"</span></code></pre>,
+                <pre class="text"><code class="language-js hljs"><span class="hljs-string">"right"</span></code></pre>
+              </div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">mapScroll</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">false</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Будет ли скролится карта?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">centerMap</span></code></pre>
+              </div>
+              <div class="insruction_option_type">array</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs">[<span class="hljs-number">55.751574</span>, <span class="hljs-number">37.573856</span>]</code></pre>
+              </div>
+              <div class="insruction_option_descripton">Координаты центра карты.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">closeBalloonAfterMapClick</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">true</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Закрывать балун при клике по карте или по кнопке?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">shiftMapToCenterOfLabel</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">true</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Скролить карту при клике по метке?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">mapControls</span></code></pre>
+              </div>
+              <div class="insruction_option_type">array</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs">[]</code></pre>
+              </div>
+              <div class="insruction_option_descripton">Кнопки карты.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">useClusterer</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">true</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Групировать В кластеры?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">clusterIconBlockClass</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"core-map_cluster_text"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Класс блока с цифрой в кластере.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">clusterImageHref</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"/assets/img/18plus.png"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Путь к своему изображению иконки кластера.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">changeClusterImageOnClick</span></code></pre>
+              </div>
+              <div class="insruction_option_type">object</div>
+              <div class="insruction_option_default"></div>
+              <div class="insruction_option_descripton">Настройки смены картинки маркеракластера по клику.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">changeIcon</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">true</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Менять ли картинку маркера кластера при клике?</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">imageHref</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-string">"/assets/img/18plus_active.png"</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Путь к своему изображению маркера кластера при клике.</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">clusterZoom</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">false</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Зумирывать карту при клике на кластер?</div>
+            </li>
+
+            <li class="insruction_option_item">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">customHtmlCluster</span></code></pre>
+              </div>
+              <div class="insruction_option_type">object</div>
+              <div class="insruction_option_default"></div>
+              <div class="insruction_option_descripton">Настройки кастомного html маркера кластера.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">isCustom</span></code></pre>
+              </div>
+              <div class="insruction_option_type">boolean</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs"><span class="hljs-literal">false</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Использовать кастомный HTML маркера кластера?<br>! Если
+                используете html то
+                <pre class="text"><code class="language-js hljs"><span class="hljs-attribute">clusterImageHref</span></code></pre> и
+                <pre class="text"><code class="language-js hljs"><span class="hljs-attribute">changeClusterImageOnClick</span></code></pre> не работают.
+              </div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">clusterHtml</span></code></pre>
+              </div>
+              <div class="insruction_option_type">string</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-html hljs"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewbox</span>=<span class="hljs-string">"0 0 42 56"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"42"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"56"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">defs</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter</span> <span class="hljs-attr">color-interpolation-filters</span>=<span class="hljs-string">"sRGB"</span> <span class="hljs-attr">filterunits</span>=<span class="hljs-string">"userSpaceOnUse"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"20.1538"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"52"</span> <span class="hljs-attr">y</span>=<span class="hljs-string">"39.8462"</span> <span class="hljs-attr">x</span>=<span class="hljs-string">"0"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"filter0_f"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">fegaussianblur</span> <span class="hljs-attr">stddeviation</span>=<span class="hljs-string">"2.5"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">defs</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_1"</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">"null"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"#525252"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"m21.000001,54.999999c12.797251,-2.8169 19.195876,-4.9284 19.195876,-6.3346c0,-2.1093 -8.594268,-3.8192 -19.195876,-3.8192c-10.601608,0 -19.195876,1.7099 -19.195876,3.8192c0,1.4062 6.398625,3.5177 19.195876,6.3346z"</span> <span class="hljs-attr">clip-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">fill-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"url(#filter0_f)"</span> <span class="hljs-attr">opacity</span>=<span class="hljs-string">"0.35"</span>/&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_2"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"m21,55c14,-15.2583 21,-26.6959 21,-34.3127c0,-11.42529 -9.402,-20.6873 -21,-20.6873c-11.59798,0 -21,9.26201 -21,20.6873c0,7.6168 7,19.0544 21,34.3127z"</span> <span class="hljs-attr">clip-rule</span>=<span class="hljs-string">"evenodd"</span> <span class="hljs-attr">fill-rule</span>=<span class="hljs-string">"evenodd"</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">use</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"path_3"</span> <span class="hljs-attr">xlink:href</span>=<span class="hljs-string">"#icon"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+              </div>
+              <div class="insruction_option_descripton">Кастомный HTML маркера кластера.</div>
+            </li>
+
+            <li class="insruction_option_item insruction_option_nesting">
+              <div class="insruction_option_name">
+                <pre><code class="language-js hljs"><span class="hljs-attribute">coordinates</span></code></pre>
+              </div>
+              <div class="insruction_option_type">array</div>
+              <div class="insruction_option_default">
+                <pre><code class="language-js hljs">[[[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">-15</span>, <span class="hljs-number">-19</span>], [<span class="hljs-number">-20</span>, <span class="hljs-number">-33</span>], [<span class="hljs-number">-14</span>, <span class="hljs-number">-47</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">-54</span>], [<span class="hljs-number">14</span>, <span class="hljs-number">-47</span>], [<span class="hljs-number">20</span>, <span class="hljs-number">-33</span>], [<span class="hljs-number">15</span>, <span class="hljs-number">-19</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]]</code></pre>
+              </div>
+              <div class="insruction_option_descripton">Полигон описывается в виде трехмерного массива. Массив верхнего
+                уровня содержит контуры полигона. Первый элемента массива - это внешний контур, а остальные -
+                внутренние.</div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
 
     </div>
 
-    <div class="insruction_html">
-      <pre><code data-lang="html" class="hljs">&lt;span class="hljs-symbol"&gt;&amp;amp;lt;&lt;/span&gt;div&lt;span class="hljs-symbol"&gt;&amp;amp;gt;&lt;/span&gt;
-        Highlighted
-    &lt;span class="hljs-symbol"&gt;&amp;amp;lt;&lt;/span&gt;div&lt;span class="hljs-symbol"&gt;&amp;amp;gt;&lt;/span&gt;</code></pre>
-    </div>
   </div>
-</div>
-
-</div>
-//= templates/blocks/mmenu-footer.html
-//= templates/footer.html
-</body></html>
+  <div id="menu">
+    <ul>
+      <li><a href="/">Index</a></li>
+      <li><a href="/core_map.html">Core map</a></li>
+      <li><a href="/vertical_accardion.html">Vertical accardion</a></li>
+      <li><a href="/swiper.html">Swiper slider</a></li>
+      <li><a href="/particle.html">Particle</a></li>
+      <li><a href="/particle_circle.html">Particle circle</a></li>
+    </ul>
+  </div>
+  <script src="/assets/js/main.js"></script>
+  
+  
+  </body>
+  </html>
