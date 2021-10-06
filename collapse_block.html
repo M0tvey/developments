@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Заголовок</title>
+  <meta name="description" content>
+
+  <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./assets/css/main.min.css">
+
+
+</head><body>
+
+  <div class="wrap">
+    <a href="#menu" class="d-flex mob-icon" data-phone>
+      <div id="my-header" class="mob-menu">
+        <div class="burger">
+          <button class="mburger mburger--tornado">
+            <b></b>
+            <b></b>
+            <b></b>
+          </button>
+          <span>menu</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="js-collapse-block">
+      <div class="collapse-block__txt hidden-txt">
+        <div class="collapse-block__txt--item" data-min-height="60">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet alias recusandae adipisci quae quaerat soluta obcaecati saepe et consequatur? Ipsum earum placeat maxime non sequi qui officiis facere sit quibusdam?</p>
+        </div>
+      </div>
+
+      <a href="javascript:void(0)" class="collapse-block__btn js-collapse-btn" data-show="Подробнее" data-hide="Скрыть">
+        <span>Подробнее</span>
+      </a>
+    </div>
+
+    <div class="insruction">
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">HTML</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"js-collapse-block"</span> <span class="hljs-attr">data-active</span>=<span class="hljs-string">"xs"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse-block__txt hidden-txt"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse-block__txt--item"</span> <span class="hljs-attr">data-min-height</span>=<span class="hljs-string">"60"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:void(0)"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse-block__btn js-collapse-btn"</span> <span class="hljs-attr">data-show</span>=<span class="hljs-string">"Подробнее"</span> <span class="hljs-attr">data-hide</span>=<span class="hljs-string">"Скрыть"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Подробнее<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">SCSS</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-css hljs"><span class="hljs-selector-class">.collapse-block</span> {
+  &amp;__txt {
+    <span class="hljs-attribute">transition</span>: all <span class="hljs-number">1s</span> ease;
+    <span class="hljs-attribute">overflow</span>: hidden;
+
+    &amp;--item {
+      <span class="hljs-attribute">overflow</span>: visible;
+    }
+
+    &amp;<span class="hljs-selector-class">.hidden-txt</span> {
+      <span class="hljs-attribute">transition</span>: all <span class="hljs-number">1s</span> ease;
+      <span class="hljs-attribute">overflow</span>: hidden;
+      <span class="hljs-attribute">position</span>: relative;
+
+      &amp; ~ <span class="hljs-selector-class">.collapse-block__btn</span> <span class="hljs-selector-class">.icon</span> {
+        <span class="hljs-attribute">transform</span>: rotate(<span class="hljs-number">0</span>);
+      }
+    }
+  }
+
+  &amp;__btn {
+    &amp;<span class="hljs-selector-pseudo">:hover</span> {
+      <span class="hljs-attribute">text-decoration</span>: none;
+    }
+
+    <span class="hljs-selector-class">.icon</span> {
+      fill: <span class="hljs-number">#000</span>;
+      <span class="hljs-attribute">width</span>: <span class="hljs-number">15px</span>;
+      <span class="hljs-attribute">height</span>: .<span class="hljs-number">6em</span>;
+      <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">10px</span>;
+      <span class="hljs-attribute">transform</span>: rotate(<span class="hljs-number">180deg</span>);
+      <span class="hljs-keyword">@include</span> transition;
+    }
+  }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="insruction_item">
+        <h2 class="insruction_title">JS</h2>
+
+        <div class="insruction_code">
+          <pre><code class="language-javascript hljs">(<span class="hljs-name">_=&gt;</span>{
+  function collapseBlock() {
+    const hideClass = <span class="hljs-symbol">'hidden-txt</span>'<span class="hljs-comment">;</span>
+
+    $(<span class="hljs-symbol">'.collapse-block__txt--item</span>').each(<span class="hljs-name">function</span> () {
+      const $collapseBlock = $(<span class="hljs-name">this</span>).closest(<span class="hljs-symbol">'.js-collapse-block</span>'),
+        sctiveWidth = $collapseBlock.data(<span class="hljs-symbol">'active</span>'),
+        minHeight = $(<span class="hljs-name">this</span>).data(<span class="hljs-symbol">'min-height</span>') ? $(<span class="hljs-name">this</span>).data(<span class="hljs-symbol">'min-height</span>') : <span class="hljs-number">85</span>,
+        $textBlock = $collapseBlock.find(<span class="hljs-symbol">'.collapse-block__txt</span>'),
+        $bttn = $collapseBlock.find(<span class="hljs-symbol">'.js-collapse-btn</span>')<span class="hljs-comment">;</span>
+
+
+      if (<span class="hljs-name">sctiveWidth</span>) {
+        $bttn.hide()<span class="hljs-comment">;</span>
+        $textBlock.removeClass(<span class="hljs-name">hideClass</span>)<span class="hljs-comment">;</span>
+        if (<span class="hljs-name">$</span>(<span class="hljs-name">this</span>).height() &gt; minHeight &amp;&amp; innerWidth &lt; breakpoints[<span class="hljs-name">sctiveWidth</span>]) {
+          $bttn.show()<span class="hljs-comment">;</span>
+          $textBlock.addClass(<span class="hljs-name">hideClass</span>)<span class="hljs-comment">;</span>
+          $textBlock.css(<span class="hljs-symbol">'height</span>', minHeight)<span class="hljs-comment">;</span>
+        } else {
+          $textBlock.css(<span class="hljs-symbol">'height</span>', <span class="hljs-symbol">'auto</span>')<span class="hljs-comment">;</span>
+        }
+      } else {
+        if (<span class="hljs-name">$</span>(<span class="hljs-name">this</span>).height() &lt; minHeight) {
+          $bttn.hide()<span class="hljs-comment">;</span>
+          $textBlock.removeClass(<span class="hljs-name">hideClass</span>)<span class="hljs-comment">;</span>
+        } else {
+          $textBlock.css(<span class="hljs-symbol">'height</span>', minHeight)<span class="hljs-comment">;</span>
+        }
+      }
+
+      $bttn.on(<span class="hljs-symbol">'click</span>', function () {
+        var showMore = $(<span class="hljs-name">this</span>).data(<span class="hljs-symbol">'show</span>')<span class="hljs-comment">;</span>
+        var hideMore = $(<span class="hljs-name">this</span>).data(<span class="hljs-symbol">'hide</span>')<span class="hljs-comment">;</span>
+        var $blockTxt = $collapseBlock.find(<span class="hljs-symbol">'.collapse-block__txt</span>')<span class="hljs-comment">;</span>
+        var $blockTxtItem = $blockTxt.find(<span class="hljs-symbol">'.collapse-block__txt--item</span>')<span class="hljs-comment">;</span>
+        var txtHeight = $blockTxtItem.height()<span class="hljs-comment">;</span>
+        const minHeight = $blockTxtItem.data(<span class="hljs-symbol">'min-height</span>') ? $blockTxtItem.data(<span class="hljs-symbol">'min-height</span>') : <span class="hljs-number">85</span>,
+          $textBlock = $(<span class="hljs-name">this</span>).find(<span class="hljs-symbol">'span</span>').length ? $(<span class="hljs-name">this</span>).find(<span class="hljs-symbol">'span</span>') : $(<span class="hljs-name">this</span>)<span class="hljs-comment">;</span>
+
+        if (<span class="hljs-name">$blockTxt.hasClass</span>(<span class="hljs-symbol">'hidden-txt</span>')) {
+          $textBlock.text(<span class="hljs-name">hideMore</span>)<span class="hljs-comment">;</span>
+          $blockTxt.height(<span class="hljs-name">txtHeight</span>)<span class="hljs-comment">;</span>
+          $blockTxt.removeClass(<span class="hljs-symbol">'hidden-txt</span>')<span class="hljs-comment">;</span>
+        } else {
+          $textBlock.text(<span class="hljs-name">showMore</span>)<span class="hljs-comment">;</span>
+          $blockTxt.addClass(<span class="hljs-symbol">'hidden-txt</span>').height(<span class="hljs-name">minHeight</span>)
+        }
+      })<span class="hljs-comment">;</span>
+    })<span class="hljs-comment">;</span>
+  }
+
+  collapseBlock()<span class="hljs-comment">;</span>
+  $(<span class="hljs-name">window</span>).resize(<span class="hljs-name">function</span> () {
+    collapseBlock()
+  })<span class="hljs-comment">;</span>
+})()<span class="hljs-comment">;</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu">
+    <ul>
+      <li><a href="./">Index</a></li>
+      <li><a href="./core_map.html">Core map</a></li>
+      <li><a href="./vertical_accardion.html">Vertical accardion</a></li>
+      <li><a href="./swiper.html">Swiper slider</a></li>
+      <li><a href="./particle.html">Particle</a></li>
+      <li><a href="./particle_circle.html">Particle circle</a></li>
+      <li><a href="./collapse_block.html">Collapse block</a></li>
+    </ul>
+  </div>
+  
+  <script src="./assets/js/main.js"></script>
+  
+  
+  </body>
+  </html>
