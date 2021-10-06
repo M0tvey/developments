@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="ver_accord_item js_ver_accord_item">
+      <div class="ver_accord_item js_ver_accord_item ver_accord_open">
         <a href="#" class="ver_accord_link js_ver_accord_link">Link 2</a>
 
         <div class="ver_accord_block js_ver_accord_block">
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div class="ver_accord_wrap js_ver_accord">
+    <div class="ver_accord_wrap js_ver_accord" data-active="md">
       <div class="ver_accord_item js_ver_accord_item">
         <a href="#" class="ver_accord_link js_ver_accord_link">Link 3</a>
 
@@ -112,13 +112,25 @@
         <h2 class="insruction_title">HTML</h2>
 
         <div class="insruction_code">
-          <pre><code class="language-xml hljs">&lt;div <span class="hljs-keyword">class</span>="<span class="hljs-symbol">js_ver_accord_item</span>"&gt;
-  &lt;<span class="hljs-symbol">a</span> <span class="hljs-symbol">href</span>="#" <span class="hljs-symbol">class</span>="<span class="hljs-symbol">js_ver_accord_link</span>"&gt;<span class="hljs-symbol">Link</span> <span class="hljs-symbol">4</span>&lt;/<span class="hljs-symbol">a</span>&gt;
-  
-  &lt;<span class="hljs-symbol">div</span> <span class="hljs-symbol">class</span>="<span class="hljs-symbol">js_ver_accord_block</span>"&gt;
-    &lt;<span class="hljs-symbol">p</span>&gt;<span class="hljs-symbol">Lorem</span> <span class="hljs-symbol">ipsum</span> <span class="hljs-symbol">dolor</span> <span class="hljs-symbol">sit</span>&lt;/<span class="hljs-symbol">p</span>&gt;
-  &lt;/<span class="hljs-symbol">div</span>&gt;
-&lt;/<span class="hljs-symbol">div</span>&gt;</code></pre>
+          <pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row js_ver_accord"</span> <span class="hljs-attr">data-active</span>=<span class="hljs-string">"md"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"js_ver_accord_item ver_accord_open"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"column_title js_ver_accord_link"</span>&gt;</span>Link 1<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"js_ver_accord_block"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"js_ver_accord_item"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"column_title js_ver_accord_link"</span>&gt;</span>Link 2<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"js_ver_accord_block"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum, dolor sit amet consectetur adipisicing elit.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
         </div>
       </div>
 
@@ -127,72 +139,83 @@
 
         <div class="insruction_code">
           <pre><code class="language-javascript hljs">(<span class="hljs-name">_=&gt;</span>{
-            const verAccords = $(<span class="hljs-symbol">'.js_ver_accord</span>'),
-              openClass = <span class="hljs-symbol">'ver_accord_open</span>',
-              breakpoints = {
-                <span class="hljs-symbol">'xlll</span><span class="hljs-symbol">':</span> <span class="hljs-number">1750</span>,
-                <span class="hljs-symbol">'xll</span><span class="hljs-symbol">':</span> <span class="hljs-number">1400</span>,
-                <span class="hljs-symbol">'xl</span><span class="hljs-symbol">':</span> <span class="hljs-number">1200</span>,
-                <span class="hljs-symbol">'lg</span><span class="hljs-symbol">':</span> <span class="hljs-number">992</span>,
-                <span class="hljs-symbol">'md</span><span class="hljs-symbol">':</span> <span class="hljs-number">768</span>,
-                <span class="hljs-symbol">'sm</span><span class="hljs-symbol">':</span> <span class="hljs-number">576</span>,
-                <span class="hljs-symbol">'xs</span><span class="hljs-symbol">':</span> <span class="hljs-number">320</span>
-              }<span class="hljs-comment">;</span>
-          
-            verAccords.each(<span class="hljs-name">function</span> () {
-              const verAccord = $(<span class="hljs-name">this</span>),
-                verAccordLinkClass = <span class="hljs-symbol">'js_ver_accord_link</span>'
-                verAccordLinks = verAccord.find(`.${ verAccordLinkClass }`),
-                verAccordBlockClass = <span class="hljs-symbol">'js_ver_accord_block</span>',
-                verAccordItemClass = <span class="hljs-symbol">'js_ver_accord_item</span>',
-                linkInit = _=&gt; {
-                  verAccordLinks.each(<span class="hljs-name">function</span> () {
-                    const $link = $(<span class="hljs-name">this</span>),
-                      verAccordBlock = $link.siblings(`.${ verAccordBlockClass }`)
-      
-                    if (<span class="hljs-name">!$link.parent</span>(`.${ verAccordItemClass }`).is(`.${ openClass }`)) verAccordBlock.hide()<span class="hljs-comment">;</span>
-      
-                    $link.on(<span class="hljs-symbol">'click</span>', function (<span class="hljs-name">e</span>) {
-                      e.preventDefault()<span class="hljs-comment">;</span>
-      
-                      verAccord.find(`.${ verAccordItemClass }.${ openClass }`).each(<span class="hljs-name">function</span>(){
-                        $(<span class="hljs-name">this</span>).removeClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
-                        $(<span class="hljs-name">this</span>).find(`.${ verAccordBlockClass }`).slideUp()<span class="hljs-comment">;</span>
-                      })<span class="hljs-comment">;</span>
-      
-                      if (<span class="hljs-name">verAccordBlock.is</span>(<span class="hljs-symbol">':hidden</span>')) {
-                        verAccordBlock.closest(`.${ verAccordItemClass }`).addClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
-                        verAccordBlock.slideDown()<span class="hljs-comment">;</span>
-                      }
-                    })<span class="hljs-comment">;</span>
-                  })<span class="hljs-comment">;</span>
-                }<span class="hljs-comment">;</span>
-                
-              if (<span class="hljs-name">verAccord</span>[<span class="hljs-name">0</span>].className.indexOf(<span class="hljs-symbol">'js_accard-</span>')) {
-                const pointName = verAccord.attr(<span class="hljs-symbol">'class</span>').split(<span class="hljs-symbol">'js_accard-</span>').pop()<span class="hljs-comment">;</span>
-                let isActive = wWidth &lt; breakpoints[<span class="hljs-name">pointName</span>]<span class="hljs-comment">;</span>
-                
-                if (<span class="hljs-name">isActive</span>) linkInit()<span class="hljs-comment">;</span>
-                
-                $(<span class="hljs-name">window</span>).on(<span class="hljs-symbol">'resize</span>', function () {
-                  isActive = wWidth &lt; breakpoints[<span class="hljs-name">pointName</span>]<span class="hljs-comment">;</span>
-      
-                  if (<span class="hljs-name">isActive</span>) {
-                    if (<span class="hljs-name">!testEvent</span>(<span class="hljs-name">verAccordLinks</span>[<span class="hljs-name">0</span>], <span class="hljs-symbol">'click</span>')) linkInit()<span class="hljs-comment">;</span>
-                  } else {
-                    verAccord.find(`.${ verAccordItemClass }`).each(<span class="hljs-name">function</span>(){
-                      const $item = $(<span class="hljs-name">this</span>)<span class="hljs-comment">;</span>
-                      $item.show().removeClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
-                      $item.find(`.${ verAccordLinkClass }`).off(<span class="hljs-symbol">'click</span>')<span class="hljs-comment">;</span>
-                      $item.find(`.${verAccordBlockClass}`).slideDown()<span class="hljs-comment">;</span>
-                    })<span class="hljs-comment">;</span>
-                  }
-                })<span class="hljs-comment">;</span>
-              } else {
-                linkInit()<span class="hljs-comment">;</span>
-              }
+verAccordion = _ =&gt; {
+  // ------- check for event -----------
+  function testEvent(<span class="hljs-name">elem</span>, event, fun) {
+    var events = $._data(<span class="hljs-name">elem</span>, <span class="hljs-string">"events"</span>)<span class="hljs-comment">;</span>
+    return !!events &amp;&amp; !!(<span class="hljs-name">events</span> = events[<span class="hljs-name">event</span>]) &amp;&amp; (<span class="hljs-name">!fun</span> || events.some(<span class="hljs-name">function</span> (<span class="hljs-name">data</span>) {
+      return data.handler == fun
+    }))<span class="hljs-comment">;</span>
+  }<span class="hljs-comment">;</span>
+
+  const verAccords = $(<span class="hljs-symbol">'.js_ver_accord</span>'),
+    openClass = <span class="hljs-symbol">'ver_accord_open</span>',
+    breakpoints = {
+      <span class="hljs-symbol">'xlll</span><span class="hljs-symbol">':</span> <span class="hljs-number">1750</span>,
+      <span class="hljs-symbol">'xll</span><span class="hljs-symbol">':</span> <span class="hljs-number">1400</span>,
+      <span class="hljs-symbol">'xl</span><span class="hljs-symbol">':</span> <span class="hljs-number">1200</span>,
+      <span class="hljs-symbol">'lg</span><span class="hljs-symbol">':</span> <span class="hljs-number">992</span>,
+      <span class="hljs-symbol">'md</span><span class="hljs-symbol">':</span> <span class="hljs-number">768</span>,
+      <span class="hljs-symbol">'sm</span><span class="hljs-symbol">':</span> <span class="hljs-number">576</span>,
+      <span class="hljs-symbol">'xs</span><span class="hljs-symbol">':</span> <span class="hljs-number">320</span>
+    }<span class="hljs-comment">;</span>
+
+  verAccords.each(<span class="hljs-name">function</span> () {
+    const verAccord = $(<span class="hljs-name">this</span>),
+      verAccordLinkClass = <span class="hljs-symbol">'js_ver_accord_link</span>'
+    verAccordLinks = verAccord.find(`.${verAccordLinkClass}`),
+      verAccordBlockClass = <span class="hljs-symbol">'js_ver_accord_block</span>',
+      verAccordItemClass = <span class="hljs-symbol">'js_ver_accord_item</span>',
+      linkInit = _ =&gt; {
+        verAccordLinks.each(<span class="hljs-name">function</span> () {
+          const $link = $(<span class="hljs-name">this</span>),
+            verAccordBlock = $link.siblings(`.${verAccordBlockClass}`)
+
+          if (<span class="hljs-name">!$link.parent</span>(`.${verAccordItemClass}`).is(`.${openClass}`)) verAccordBlock.hide()<span class="hljs-comment">;</span>
+
+          $link.on(<span class="hljs-symbol">'click</span>', function (<span class="hljs-name">e</span>) {
+            e.preventDefault()<span class="hljs-comment">;</span>
+
+            verAccord.find(`.${verAccordItemClass}.${openClass}`).each(<span class="hljs-name">function</span> () {
+              $(<span class="hljs-name">this</span>).removeClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
+              $(<span class="hljs-name">this</span>).find(`.${verAccordBlockClass}`).slideUp()<span class="hljs-comment">;</span>
             })<span class="hljs-comment">;</span>
-          })()<span class="hljs-comment">;</span></code></pre>
+
+            if (<span class="hljs-name">verAccordBlock.is</span>(<span class="hljs-symbol">':hidden</span>')) {
+              verAccordBlock.closest(`.${verAccordItemClass}`).addClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
+              verAccordBlock.slideDown()<span class="hljs-comment">;</span>
+            }
+          })<span class="hljs-comment">;</span>
+        })<span class="hljs-comment">;</span>
+      }<span class="hljs-comment">;</span>
+
+    if (<span class="hljs-name">verAccord</span>[<span class="hljs-name">0</span>].className.indexOf(<span class="hljs-symbol">'js_accard-</span>') != <span class="hljs-number">-1</span>) {
+      const pointName = verAccord.attr(<span class="hljs-symbol">'class</span>').split(<span class="hljs-symbol">'js_accard-</span>').pop()<span class="hljs-comment">;</span>
+      let isActive = wWidth &lt; breakpoints[<span class="hljs-name">pointName</span>]<span class="hljs-comment">;</span>
+
+      if (<span class="hljs-name">isActive</span>) linkInit()<span class="hljs-comment">;</span>
+
+      $(<span class="hljs-name">window</span>).on(<span class="hljs-symbol">'resize</span>', function () {
+        isActive = wWidth &lt; breakpoints[<span class="hljs-name">pointName</span>]<span class="hljs-comment">;</span>
+
+        if (<span class="hljs-name">isActive</span>) {
+          if (<span class="hljs-name">!testEvent</span>(<span class="hljs-name">verAccordLinks</span>[<span class="hljs-name">0</span>], <span class="hljs-symbol">'click</span>')) linkInit()<span class="hljs-comment">;</span>
+        } else {
+          verAccord.find(`.${verAccordItemClass}`).each(<span class="hljs-name">function</span> () {
+            const $item = $(<span class="hljs-name">this</span>)<span class="hljs-comment">;</span>
+            $item.show().removeClass(<span class="hljs-name">openClass</span>)<span class="hljs-comment">;</span>
+            $item.find(`.${verAccordLinkClass}`).off(<span class="hljs-symbol">'click</span>')<span class="hljs-comment">;</span>
+            $item.find(`.${verAccordBlockClass}`).slideDown()<span class="hljs-comment">;</span>
+          })<span class="hljs-comment">;</span>
+        }
+      })<span class="hljs-comment">;</span>
+    } else {
+      linkInit()<span class="hljs-comment">;</span>
+    }
+  })<span class="hljs-comment">;</span>
+}<span class="hljs-comment">;</span>
+verAccordion()<span class="hljs-comment">;</span>
+})()<span class="hljs-comment">;</span></code></pre>
         </div>
       </div>
     </div>
