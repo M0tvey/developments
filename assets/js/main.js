@@ -1945,7 +1945,7 @@ $(document).ready(function () {
   
                 if (verAccordBlock.is(':hidden')) {
                   verAccordBlock.closest(`.${verAccordItemClass}`).addClass(openClass);
-                  // verAccordBlock.slideDown();
+                  verAccordBlock.slideDown();
                 }
               });
             });
@@ -1960,14 +1960,13 @@ $(document).ready(function () {
   
 
             if (isActive) {
-  console.log(isActive)
               if (!testEvent(verAccordLinks[0], 'click')) linkInit();
             } else {
               verAccord.find(`.${verAccordItemClass}`).each(function () {
-                // const $item = $(this);
-                // $item.show().removeClass(openClass);
-                // $item.find(`.${verAccordLinkClass}`).off('click');
-                // // $item.find(`.${verAccordBlockClass}`).slideDown();
+                const $item = $(this);
+                $item.show().removeClass(openClass);
+                $item.find(`.${verAccordLinkClass}`).off('click');
+                $item.find(`.${verAccordBlockClass}`).slideDown();
               });
             }
           });
