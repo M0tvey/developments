@@ -1,4 +1,4 @@
-{
+<html><head></head><body>{
   "type": "FeatureCollection",
   "features": [
     {
@@ -41,3 +41,4 @@
     }
   ]
 }
+</body></html>

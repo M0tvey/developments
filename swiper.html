@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <title>Заголовок</title>
-  <meta name="description" content>
-
-  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/assets/css/main.min.css">
+<html><head></head><body>//= templates/header-inner.html
 
 
-</head><body>
+
 
   <div class="wrap">
-    <a href="#menu" class="d-flex mob-icon" data-phone>
-      <div id="my-header" class="mob-menu">
-        <div class="burger">
-          <button class="mburger mburger--tornado">
-            <b></b>
-            <b></b>
-            <b></b>
-          </button>
-          <span>menu</span>
-        </div>
-      </div>
-    </a>
+    //= templates/blocks/mmenu-header.html
   </div>
 
   <div class="container">
@@ -57,26 +33,12 @@
   <div class="wrap">
     <a href="https://qna.habr.com/q/908931#answer_1835045" target="_blank">Инструкция подключения</a>
 
-    <pre>
-      const swiper = new Swiper('.swiper-container', {
+    <pre>      const swiper = new Swiper('.swiper-container', {
         speed: 400,
         spaceBetween: 100,
       });
     </pre>
   </div>
 
-  <div id="menu">
-    <ul>
-      <li><a href="/">Index</a></li>
-      <li><a href="/core_map.html">Core map</a></li>
-      <li><a href="/vertical_accardion.html">Vertical accardion</a></li>
-      <li><a href="/swiper.html">Swiper slider</a></li>
-      <li><a href="/particle.html">Particle</a></li>
-      <li><a href="/particle_circle.html">Particle circle</a></li>
-    </ul>
-  </div>
-  <script src="/assets/js/main.js"></script>
-  
-  
-  </body>
-  </html>
+  //= templates/blocks/mmenu-footer.html
+  //= templates/footer.html</body></html>

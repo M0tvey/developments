@@ -1,135 +1,18 @@
-<!DOCTYPE html>
-<html lang="ru">
+<html><head></head><body>//= templates/header-inner.html
 
-<head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <title>Заголовок</title>
-  <meta name="description" content>
-
-  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/assets/css/main.min.css">
-</head>
-<body>
 
 <div class="wrap">
-  <a href="#menu" class="d-flex mob-icon" data-phone>
-    <div id="my-header" class="mob-menu">
-      <div class="burger">
-        <button class="mburger mburger--tornado">
-          <b></b>
-          <b></b>
-          <b></b>
-        </button>
-        <span>menu</span>
-      </div>
-    </div>
-  </a>
+  //= templates/blocks/mmenu-header.html
 </div>
 
 <div class="container">
 <!--
-    <form action="response-form.json" method="post" class="formAjax masterclass-form" data-parsley-validate="data-parsley-validate" >
-        <div class="form__body">
-            <div class="form__body--select form__body-col form-margin form-pr">
-                <label for="select">Label<sup>*</sup></label>
-                <select class="custom-select" id="select" data-validation="required"
-                        data-validation-error-msg="Обязательное поле." data-placeholder="">
-                    <option value="1" selected>Какое-то значение</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-            <div class="form__body-col form-margin">
-                <div class="form__body--radio form-pr ">
-                    <input class="hidden-input" type="radio" name="radio" id="radio1" value="">
-                    <label for="radio1" class="radio-label">
-                        <div class="label-wrap">
-                            <div class="title">21.03.2019</div>
-                            <div class="subtitle">четверг с 18:30 до 20:30</div>
-                        </div>
-                    </label>
-                </div>
-                <div class="form__body--radio form-pr ">
-                    <input class="hidden-input" type="radio" name="radio" id="radio2" value="">
-                    <label for="radio2" class="radio-label">
-                        <div class="label-wrap">
-                            <div class="title">21.03.2019</div>
-                            <div class="subtitle">четверг с 18:30 до 20:30</div>
-                        </div>
-                    </label>
-                </div>
-    
-            </div>
-            <div class="form__body-col">
-                <div class="form__body--input form-margin form-pr">
-                    <label for="name1">Представьтесь, пожалуйста
-                        (ФИО)<sup>*</sup></label>
-                    <input id="name1" type="text" name="name" placeholder="Как к Вам обращаться" required>
-                </div>
-            </div>
-            <div class="form__body-col">
-                <div class="form__body--input form-margin form-pr">
-                    <label for="email1">E-mail для отправки
-                        приглашения<sup>*</sup></label>
-                    <input id="email1" type="text" name="email1" placeholder="Введите адрес e-mail" data-parsley-type="email" >
-                </div>
-            </div>
-            <div class="form__body-col">
-                <div class="form__body--input form-margin form-pr">
-                    <label for="phone1">Телефон<sup>*</sup></label>
-                    <input id="phone1" type="text" name="phone" class="js-phone-mask" placeholder="Например, +79032094743" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" required>
-                </div>
-            </div>
-            <div class="form__body-col">
-                <div class="form__body--input form__body--file form-margin form-pr ">
-                    <label for="file">Приложите файл<sup>*</sup></label>
-                    <label class="input-file" for="file">Нажмите для выбора</label>
-                    <input class="hidden-input js-file-input" id="file" type="file" name="check_photo"  >
-    
-            </div>
-            <div class="form__body-col form-margin form-pr">
-                <label for="ReviewText">label
-                </label>
-                <textarea cols="20" data-validation="required" data-validation-error-msg="Обязательное поле" id="ReviewText" name="ReviewText" rows="2" ></textarea>
-            </div>
-            <div class="form__body-col">
-                <div class="form__body--checkbox form-margin form-pr">
-                    <input checked="" type="checkbox" class="hidden-input" name="accept" id="accept1"
-                           data-validation="checkbox_group" data-validation-qty="min1"
-                           data-validation-error-msg="Примите условия соглашения" required>
-                    <label for="accept1" class="checkbox-label" >Я соглашаюсь с <a target="_blank" href="javascript:void(0)">
-                        условиями обработки
-                        персональных данных</a> <sup>*</sup></label>
-                </div>
-            </div>
-    
-        </div>
-        <button type="submit" class="js-form-ajax-btn">Отправить</button>
-        <div class="js-form-ajax-error"></div>
-    </form>
-    <div id="shopMap" class="cluster-map js-cluster-map" data-center="[55.751574, 37.573856]"
-         data-file="map-cluster.json"></div>
-    <div id="mapId" class="simple-map" data-center="55.751574, 37.573856" data-file="map-simple.json"></div>
+    //= templates/blocks/form.html
+    //= templates/blocks/map-cluster.html
+    //= templates/blocks/map-simple.html
 -->
 </div>
 
-<div id="menu">
-  <ul>
-    <li><a href="/">Index</a></li>
-    <li><a href="/core_map.html">Core map</a></li>
-    <li><a href="/vertical_accardion.html">Vertical accardion</a></li>
-    <li><a href="/swiper.html">Swiper slider</a></li>
-    <li><a href="/particle.html">Particle</a></li>
-    <li><a href="/particle_circle.html">Particle circle</a></li>
-  </ul>
-</div>
-<script src="/assets/js/main.js"></script>
-
-
-</body>
-</html>
+//= templates/blocks/mmenu-footer.html
+//= templates/footer.html</body></html>
