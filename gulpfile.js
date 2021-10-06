@@ -29,6 +29,7 @@ var gulp = require('gulp'),
   del = require('del'),
   highlight = require('gulp-highlight'),
   reload = browserSync.reload,
+  ghPages = require('gulp-gh-pages'),
   isDebug = true;
 // isDebug = process.env.NODE_ENV !== 'production';
 
@@ -194,3 +195,8 @@ gulp.task('webserver', function () {
 
 gulp.task('default', gulp.parallel(['build', 'webserver', 'watch']));
 // gulp.task('build', gulp.parallel(['build', 'webserver', 'watch']));
+
+gulp.task('deploy', function() {
+  return gulp.src('./build/**/*')
+      .pipe(ghPages());
+});
