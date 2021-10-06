@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="ver_accord_item js_ver_accord_item">
+      <div class="ver_accord_item js_ver_accord_item ver_accord_open">
         <a href="#" class="ver_accord_link js_ver_accord_link">Link 2</a>
 
         <div class="ver_accord_block js_ver_accord_block">
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="ver_accord_wrap js_ver_accord">
+    <div class="ver_accord_wrap js_ver_accord" data-active="md">
       <div class="ver_accord_item js_ver_accord_item">
         <a href="#" class="ver_accord_link js_ver_accord_link">Link 3</a>
 
@@ -88,11 +88,23 @@
         <h2 class="insruction_title">HTML</h2>
 
         <div class="insruction_code">
-          <pre><code class="language-xml"><div class="js_ver_accord_item">
-  <a href="#" class="js_ver_accord_link">Link 4</a>
-  
-  <div class="js_ver_accord_block">
-    <p>Lorem ipsum dolor sit</p>
+          <pre><code class="language-xml"><div class="row js_ver_accord" data-active="md">
+  <div class="js_ver_accord_item ver_accord_open">
+    <span class="column_title js_ver_accord_link">Link 1</span>
+    <div class="js_ver_accord_block">
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+  </div>
+
+  <div class="js_ver_accord_item">
+    <span class="column_title js_ver_accord_link">Link 2</span>
+    <div class="js_ver_accord_block">
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+    </div>
   </div>
 </div></code></pre>
         </div>
@@ -103,72 +115,83 @@
 
         <div class="insruction_code">
           <pre><code class="language-javascript">(_=>{
-            const verAccords = $('.js_ver_accord'),
-              openClass = 'ver_accord_open',
-              breakpoints = {
-                'xlll': 1750,
-                'xll': 1400,
-                'xl': 1200,
-                'lg': 992,
-                'md': 768,
-                'sm': 576,
-                'xs': 320
-              };
-          
-            verAccords.each(function () {
-              const verAccord = $(this),
-                verAccordLinkClass = 'js_ver_accord_link'
-                verAccordLinks = verAccord.find(`.${ verAccordLinkClass }`),
-                verAccordBlockClass = 'js_ver_accord_block',
-                verAccordItemClass = 'js_ver_accord_item',
-                linkInit = _=> {
-                  verAccordLinks.each(function () {
-                    const $link = $(this),
-                      verAccordBlock = $link.siblings(`.${ verAccordBlockClass }`)
-      
-                    if (!$link.parent(`.${ verAccordItemClass }`).is(`.${ openClass }`)) verAccordBlock.hide();
-      
-                    $link.on('click', function (e) {
-                      e.preventDefault();
-      
-                      verAccord.find(`.${ verAccordItemClass }.${ openClass }`).each(function(){
-                        $(this).removeClass(openClass);
-                        $(this).find(`.${ verAccordBlockClass }`).slideUp();
-                      });
-      
-                      if (verAccordBlock.is(':hidden')) {
-                        verAccordBlock.closest(`.${ verAccordItemClass }`).addClass(openClass);
-                        verAccordBlock.slideDown();
-                      }
-                    });
-                  });
-                };
-                
-              if (verAccord[0].className.indexOf('js_accard-')) {
-                const pointName = verAccord.attr('class').split('js_accard-').pop();
-                let isActive = wWidth < breakpoints[pointName];
-                
-                if (isActive) linkInit();
-                
-                $(window).on('resize', function () {
-                  isActive = wWidth < breakpoints[pointName];
-      
-                  if (isActive) {
-                    if (!testEvent(verAccordLinks[0], 'click')) linkInit();
-                  } else {
-                    verAccord.find(`.${ verAccordItemClass }`).each(function(){
-                      const $item = $(this);
-                      $item.show().removeClass(openClass);
-                      $item.find(`.${ verAccordLinkClass }`).off('click');
-                      $item.find(`.${verAccordBlockClass}`).slideDown();
-                    });
-                  }
-                });
-              } else {
-                linkInit();
-              }
+verAccordion = _ => {
+  // ------- check for event -----------
+  function testEvent(elem, event, fun) {
+    var events = $._data(elem, "events");
+    return !!events && !!(events = events[event]) && (!fun || events.some(function (data) {
+      return data.handler == fun
+    }));
+  };
+
+  const verAccords = $('.js_ver_accord'),
+    openClass = 'ver_accord_open',
+    breakpoints = {
+      'xlll': 1750,
+      'xll': 1400,
+      'xl': 1200,
+      'lg': 992,
+      'md': 768,
+      'sm': 576,
+      'xs': 320
+    };
+
+  verAccords.each(function () {
+    const verAccord = $(this),
+      verAccordLinkClass = 'js_ver_accord_link'
+    verAccordLinks = verAccord.find(`.${verAccordLinkClass}`),
+      verAccordBlockClass = 'js_ver_accord_block',
+      verAccordItemClass = 'js_ver_accord_item',
+      linkInit = _ => {
+        verAccordLinks.each(function () {
+          const $link = $(this),
+            verAccordBlock = $link.siblings(`.${verAccordBlockClass}`)
+
+          if (!$link.parent(`.${verAccordItemClass}`).is(`.${openClass}`)) verAccordBlock.hide();
+
+          $link.on('click', function (e) {
+            e.preventDefault();
+
+            verAccord.find(`.${verAccordItemClass}.${openClass}`).each(function () {
+              $(this).removeClass(openClass);
+              $(this).find(`.${verAccordBlockClass}`).slideUp();
             });
-          })();</code></pre>
+
+            if (verAccordBlock.is(':hidden')) {
+              verAccordBlock.closest(`.${verAccordItemClass}`).addClass(openClass);
+              verAccordBlock.slideDown();
+            }
+          });
+        });
+      };
+
+    if (verAccord[0].className.indexOf('js_accard-') != -1) {
+      const pointName = verAccord.attr('class').split('js_accard-').pop();
+      let isActive = wWidth < breakpoints[pointName];
+
+      if (isActive) linkInit();
+
+      $(window).on('resize', function () {
+        isActive = wWidth < breakpoints[pointName];
+
+        if (isActive) {
+          if (!testEvent(verAccordLinks[0], 'click')) linkInit();
+        } else {
+          verAccord.find(`.${verAccordItemClass}`).each(function () {
+            const $item = $(this);
+            $item.show().removeClass(openClass);
+            $item.find(`.${verAccordLinkClass}`).off('click');
+            $item.find(`.${verAccordBlockClass}`).slideDown();
+          });
+        }
+      });
+    } else {
+      linkInit();
+    }
+  });
+};
+verAccordion();
+})();</code></pre>
         </div>
       </div>
     </div>

@@ -62,7 +62,6 @@ var path = {
       'node_modules/swiper/swiper-bundle.min.js',
       // my scripts
       'src/assets/js/core_map.js',
-      'src/assets/js/vertical_accardion.js',
       'src/assets/js/cursor.js',
       'src/assets/js/particle.js',
       'src/assets/js/particle_circle.js',
