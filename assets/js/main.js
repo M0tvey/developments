@@ -1156,7 +1156,7 @@ class coreMap {
     properties = {
       bgColor: 'rgba(17, 17, 19, 1)',
       particleColor: 'rgba(46, 110, 45, 1)',
-      particleRadius: 5,
+      particleRadius: 3,
       particleCount: 100,
       particleMaxVelocity: 0.5,
       lineLingth: 100,
@@ -1222,7 +1222,7 @@ class coreMap {
       this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
       this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
       this.life = Math.random() * properties.particleLife * 60;
-      this.radius = Math.random() * properties.particleRadius;
+      this.radius = properties.particleRadius; //Math.random() * properties.particleRadius;
     }
 
     reCalculeteLife() {
