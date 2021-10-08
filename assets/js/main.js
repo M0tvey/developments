@@ -1269,7 +1269,7 @@ class coreMap {
     ctx = canvas.getContext('2d'),
     particles = [],
     properties = {
-      bgColor: '#E5E5E5',
+      bgColor: '#fff',
       particleColor: 'rgba(0, 233, 233, 1)',
       particleRadius: 5,
       particleCount: 50,
@@ -1285,7 +1285,6 @@ class coreMap {
     },
     reDrowParticles = _=> {
       for (const i in particles) {
-        // particles[i].reCalculeteLife();
         particles[i].reDraw();
         particles[i].position();
       }
@@ -1332,11 +1331,15 @@ class coreMap {
       drowLines();
       reDrowParticles();
       circle();
-      // requestAnimationFrame(loop);
+      requestAnimationFrame(loop);
     },
     init = _=> {
       for (let i = 0; i < properties.particleCount; i++) {
         particles.push(new Particle);
+        
+        // particles[i].reCalculeteLife();
+        if (i > properties.particleCount / 2) particles[i].velocityX = -1;
+        console.log(particles[i])
       }
 
       loop();
@@ -1349,11 +1352,16 @@ class coreMap {
   
   class Particle {
     constructor(){
-      this.x = (Math.random() * properties.bigRadius) + (w / 2) - (properties.bigRadius / 2);
-      this.y = (Math.random() * properties.bigRadius) + (h / 2) - (properties.bigRadius / 2);
-      // this.velocityX = .95;
-      this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
-      this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
+      const angel = Math.random() * 360;
+
+      this.x = (w / 2) + (Math.cos((angel * 360) * (Math.PI / 180)) * Math.random() * properties.bigRadius)
+      this.y = (h / 2) + (Math.sin((angel * 360) * (Math.PI / 180)) * Math.random() * properties.bigRadius)
+
+      // this.x = (Math.random() * properties.bigRadius) + (w / 2) - (properties.bigRadius / 2);
+      // this.y = (Math.random() * properties.bigRadius) + (h / 2) - (properties.bigRadius / 2);
+      this.velocityX = 1;
+      this.velocityY = 0;
+      // this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
       // this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
       this.life = Math.random() * properties.particleLife * 60;
       this.radius = properties.particleRadius;//Math.random() * properties.particleRadius + 1;
