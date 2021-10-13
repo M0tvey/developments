@@ -1271,11 +1271,9 @@ class coreMap {
     properties = {
       bgColor: '#fff',
       particleColor: 'rgba(0, 233, 233, 1)',
-      particleRadius: 5,
-      particleCount: 50,
-      particleMaxVelocity: 0.5,
+      particleRadius: 3,
+      particleCount: 100,
       lineLingth: 70,
-      particleLife: 6,
       bigRadius: 200,
       maxLinesCount: 4
     },
@@ -1337,9 +1335,7 @@ class coreMap {
       for (let i = 0; i < properties.particleCount; i++) {
         particles.push(new Particle);
         
-        // particles[i].reCalculeteLife();
         if (i > properties.particleCount / 2) particles[i].velocityX = -1;
-        console.log(particles[i])
       }
 
       loop();
@@ -1354,29 +1350,15 @@ class coreMap {
     constructor(){
       const angel = Math.random() * 360;
 
-      this.x = (w / 2) + (Math.cos((angel * 360) * (Math.PI / 180)) * Math.random() * properties.bigRadius)
-      this.y = (h / 2) + (Math.sin((angel * 360) * (Math.PI / 180)) * Math.random() * properties.bigRadius)
+      this.centerDistance = 0
 
-      // this.x = (Math.random() * properties.bigRadius) + (w / 2) - (properties.bigRadius / 2);
-      // this.y = (Math.random() * properties.bigRadius) + (h / 2) - (properties.bigRadius / 2);
+      // this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * Math.random() * (properties.bigRadius - 150))
+      this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * Math.random() * properties.bigRadius)
+      this.y = (h / 2) + (Math.sin(angel * (Math.PI / 180)) * Math.random() * properties.bigRadius)
+
       this.velocityX = 1;
       this.velocityY = 0;
-      // this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
-      // this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
-      this.life = Math.random() * properties.particleLife * 60;
-      this.radius = properties.particleRadius;//Math.random() * properties.particleRadius + 1;
-    }
-
-    reCalculeteLife() {
-      if (this.life < 1) {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
-        this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
-        this.life = Math.random() * properties.particleLife * 60;
-      }
-
-      this.life--;
+      this.radius = properties.particleRadius;
     }
 
     reDraw() {
@@ -1391,18 +1373,23 @@ class coreMap {
       const senterX = w / 2,
         senterY = h / 2;
 
-      let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))) + 3;
+
+
+      let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))) + this.radius;
+
+      
+      let difference = ((properties.particleRadius - 2) - ((length / properties.bigRadius) * (properties.particleRadius - 2)))
+      this.radius = Math.sign (this.velocityX) == 1 ? properties.particleRadius + difference : properties.particleRadius - difference
+
+      // console.log(((length / properties.bigRadius) * 2));
 
       if (length >= properties.bigRadius) {
         this.velocityX *= -1;
         this.velocityY *= -1;
-      } else {
-        this.velocityX;
-        this.velocityY;
-      };
+      }
       
-      this.x += this.velocityX;
-      this.y += this.velocityY;
+      this.x += this.velocityX * (1.2 - (length / properties.bigRadius));
+      this.y += this.velocityY * (1.2 - (length / properties.bigRadius));
     }
   }
 
