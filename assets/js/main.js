@@ -1268,17 +1268,20 @@ class coreMap {
   const canvas = document.createElement('canvas'),
     ctx = canvas.getContext('2d'),
     particles = [],
-    properties = {
+    prop = {
       bgColor: '#fff',
       particleColor: 'rgba(0, 233, 233, 1)',
       particleRadius: 3,
       particleCount: 100,
-      lineLingth: 70,
+      lineLingth: 100,
       bigRadius: 200,
-      maxLinesCount: 4
+      maxLinesCount: 4,
+      circlesCount: 4,
+      differenceAngel: 4,
+      differenceCords: 10
     },
     reDrawBackground = _=> {
-      ctx.fillStyle = properties.bgColor;
+      ctx.fillStyle = prop.bgColor;
       ctx.fillRect(0, 0, w, h);
     },
     reDrowParticles = _=> {
@@ -1288,19 +1291,23 @@ class coreMap {
       }
     },
     drowLines = _=> {
-      let x1, y1, x2, y2, length, opacity, linesCount = 0;
+      let x1, y1, x2, y2, length, opacity, linesCount = 0, next = 0;
 
-      for (const a in particles) {
-        for (let b = 0; b < particles.length; b++) {
-          
+      for (let a = 0; a < particles.length; a++) {
+        let maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount;
+
+        for (let b = a; b < maxlength; b++) {
+        // for (let b = 0; b < prop.maxLinesCount; b++) {
+
+// console.log(a, b)
         // for (const b in particles) {
           x1 = particles[a].x;
           y1 = particles[a].y;
           x2 = particles[b].x;
           y2 = particles[b].y;
           length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-          if (length < properties.lineLingth && linesCount <= properties.maxLinesCount) {
-            opacity = 1 - length / properties.lineLingth;
+          if (length < prop.lineLingth) {
+            opacity = 1 - length / prop.lineLingth;
             ctx.lineWidth = '0.4';
             ctx.strokeStyle = `rgba(0, 180, 180, ${opacity})`;
             ctx.beginPath();
@@ -1311,7 +1318,6 @@ class coreMap {
             linesCount++;
           } else linesCount--;
         }
-        // }
       }
     },
     circle = _=> {
@@ -1319,7 +1325,7 @@ class coreMap {
         x = wrap.offsetWidth / 2;
 
       ctx.beginPath();
-      ctx.arc(x, y, properties.bigRadius, 0, Math.PI * 2);
+      ctx.arc(x, y, prop.bigRadius, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fillStyle = 'rgba(46, 110, 45, .1)';
       ctx.fill();
@@ -1332,10 +1338,26 @@ class coreMap {
       requestAnimationFrame(loop);
     },
     init = _=> {
-      for (let i = 0; i < properties.particleCount; i++) {
-        particles.push(new Particle);
+      let count = 0,
+        angel = 0;
+
+      for (let i = 0; i < prop.particleCount; i++) {
+
+        const angelId = (720 / prop.particleCount) * i,
+          cord = ((prop.bigRadius - prop.particleRadius) / prop.circlesCount) * count,
+          x = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
+          y = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords);
+
+        if (count >= prop.circlesCount) {
+          angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel);
+          count = 0
+        }
         
-        if (i > properties.particleCount / 2) particles[i].velocityX = -1;
+        particles.push(new Particle(angel, x, y));
+        
+        if (i > prop.particleCount / 2) particles[i].velocityX = -1;
+
+        count++;
       }
 
       loop();
@@ -1347,25 +1369,22 @@ class coreMap {
   wrap.append(canvas);
   
   class Particle {
-    constructor(){
-      const angel = Math.random() * 360;
+    constructor(angel, cordX, cordY){
+      // const angell = Math.random() * 360;
 
       this.centerDistance = 0
-
-      // this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * Math.random() * (properties.bigRadius - 150))
-      this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * Math.random() * properties.bigRadius)
-      this.y = (h / 2) + (Math.sin(angel * (Math.PI / 180)) * Math.random() * properties.bigRadius)
-
+      this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * cordX)
+      this.y = (h / 2) + (Math.sin(angel * (Math.PI / 180)) * cordY)
       this.velocityX = 1;
       this.velocityY = 0;
-      this.radius = properties.particleRadius;
+      this.radius = prop.particleRadius;
     }
 
     reDraw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.closePath();
-      ctx.fillStyle = properties.particleColor;
+      ctx.fillStyle = prop.particleColor;
       ctx.fill();
     }
 
@@ -1373,23 +1392,18 @@ class coreMap {
       const senterX = w / 2,
         senterY = h / 2;
 
+      let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))),
+        difference = ((prop.particleRadius - 2) - ((length / prop.bigRadius) * (prop.particleRadius - 2)));
+        
+      this.radius = Math.sign (this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
 
-
-      let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))) + this.radius;
-
-      
-      let difference = ((properties.particleRadius - 2) - ((length / properties.bigRadius) * (properties.particleRadius - 2)))
-      this.radius = Math.sign (this.velocityX) == 1 ? properties.particleRadius + difference : properties.particleRadius - difference
-
-      // console.log(((length / properties.bigRadius) * 2));
-
-      if (length >= properties.bigRadius) {
+      if (length >= prop.bigRadius) {
         this.velocityX *= -1;
         this.velocityY *= -1;
       }
       
-      this.x += this.velocityX * (1.2 - (length / properties.bigRadius));
-      this.y += this.velocityY * (1.2 - (length / properties.bigRadius));
+      this.x += this.velocityX * (1.2 - (length / prop.bigRadius));
+      this.y += this.velocityY * (1.2 - (length / prop.bigRadius));
     }
   }
 
