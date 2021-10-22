@@ -1262,8 +1262,8 @@ class coreMap {
 })();
 // -------------------------------- particles animation --------------------------------
 (_=>{
-  const wrap = document.querySelector('.particles_circle');
-  if (!wrap) return;
+  const wrap = document.querySelector('.particles_circle')
+  if (!wrap) return
 
   const canvas = document.createElement('canvas'),
     ctx = canvas.getContext('2d'),
@@ -1274,146 +1274,164 @@ class coreMap {
       particleRadius: 3,
       particleCount: 100,
       lineLingth: 100,
-      bigRadius: 200,
+      bigRadius: 180,
       maxLinesCount: 4,
       circlesCount: 4,
       differenceAngel: 4,
-      differenceCords: 10
+      differenceCords: 10,
+      images: [
+        '/img/circle_images/image_2.svg',
+        '/img/circle_images/image_3.svg',
+        '/img/circle_images/image_4.svg',
+        '/img/circle_images/image_5.svg',
+        '/img/circle_images/image_6.svg',
+        '/img/circle_images/image_1.svg'
+      ]
     },
     reDrawBackground = _=> {
-      ctx.fillStyle = prop.bgColor;
-      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = prop.bgColor
+      ctx.fillRect(0, 0, w, h)
     },
     reDrowParticles = _=> {
       for (const i in particles) {
-        particles[i].reDraw();
-        particles[i].position();
+        particles[i].reDraw()
+        particles[i].position()
       }
     },
     drowLines = _=> {
-      let x1, y1, x2, y2, length, opacity, linesCount = 0, next = 0;
+      let x1, y1, x2, y2, length, opacity, linesCount = 0, next = 0
 
       for (let a = 0; a < particles.length; a++) {
-        let maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount;
+        let maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount
 
         for (let b = a; b < maxlength; b++) {
         // for (let b = 0; b < prop.maxLinesCount; b++) {
 
 // console.log(a, b)
         // for (const b in particles) {
-          x1 = particles[a].x;
-          y1 = particles[a].y;
-          x2 = particles[b].x;
-          y2 = particles[b].y;
-          length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+          x1 = particles[a].x
+          y1 = particles[a].y
+          x2 = particles[b].x
+          y2 = particles[b].y
+          length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
           if (length < prop.lineLingth) {
-            opacity = 1 - length / prop.lineLingth;
-            ctx.lineWidth = '0.4';
-            ctx.strokeStyle = `rgba(0, 180, 180, ${opacity})`;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.closePath();
-            ctx.stroke();
+            opacity = 1 - length / prop.lineLingth
+            ctx.lineWidth = '0.4'
+            ctx.strokeStyle = `rgba(0, 180, 180, ${opacity})`
+            ctx.beginPath()
+            ctx.moveTo(x1, y1)
+            ctx.lineTo(x2, y2)
+            ctx.closePath()
+            ctx.stroke()
             linesCount++;
-          } else linesCount--;
+          } else linesCount--
         }
       }
     },
     circle = _=> {
       const y = wrap.offsetHeight / 2,
-        x = wrap.offsetWidth / 2;
+        x = wrap.offsetWidth / 2
 
-      ctx.beginPath();
-      ctx.arc(x, y, prop.bigRadius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(46, 110, 45, .1)';
-      ctx.fill();
+      ctx.beginPath()
+      ctx.arc(x, y, prop.bigRadius, 0, Math.PI * 2)
+      ctx.closePath()
+      ctx.fillStyle = 'rgba(46, 110, 45, .1)'
+      ctx.fill()
     },
     loop = _=> {
-      reDrawBackground();
-      drowLines();
-      reDrowParticles();
-      circle();
-      requestAnimationFrame(loop);
+      reDrawBackground()
+      drowLines()
+      reDrowParticles()
+      circle()
+      requestAnimationFrame(loop)
     },
     init = _=> {
       let count = 0,
-        angel = 0;
+        angel = 0
+
+      for (let i = 0; i < prop.images.length; i++) {
+        const angel = (360 / prop.images.length) * i,
+          cord = prop.bigRadius + 50
+
+        particles.push(new Particle(angel, cord, cord, true))
+      }
 
       for (let i = 0; i < prop.particleCount; i++) {
 
         const angelId = (720 / prop.particleCount) * i,
           cord = ((prop.bigRadius - prop.particleRadius) / prop.circlesCount) * count,
-          x = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
-          y = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords);
+          cordWithRandomX = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
+          cordWithRandomY = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
+          x = cordWithRandomX > prop.bigRadius ? prop.bigRadius : cordWithRandomX,
+          y = cordWithRandomY > prop.bigRadius ? prop.bigRadius : cordWithRandomY
 
         if (count >= prop.circlesCount) {
-          angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel);
+          angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel)
           count = 0
         }
         
-        particles.push(new Particle(angel, x, y));
+        particles.push(new Particle(angel, x, y))
         
-        if (i > prop.particleCount / 2) particles[i].velocityX = -1;
+        if (i > prop.particleCount / 2) particles[i].velocityX = -1
 
-        count++;
+        count++
       }
 
-      loop();
+      loop()
     };
 
   let w = canvas.width = wrap.offsetWidth,
-    h = canvas.height = wrap.offsetHeight;
+    h = canvas.height = wrap.offsetHeight
 
-  wrap.append(canvas);
+  wrap.append(canvas)
   
   class Particle {
-    constructor(angel, cordX, cordY){
+    constructor(angel, cordX, cordY, isImage = false) {
       // const angell = Math.random() * 360;
 
       this.centerDistance = 0
       this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * cordX)
       this.y = (h / 2) + (Math.sin(angel * (Math.PI / 180)) * cordY)
-      this.velocityX = 1;
-      this.velocityY = 0;
-      this.radius = prop.particleRadius;
+      this.velocityX = 1
+      this.velocityY = 0
+      this.radius = prop.particleRadius
+      this.image = isImage
     }
 
     reDraw() {
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fillStyle = prop.particleColor;
-      ctx.fill();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+      ctx.closePath()
+      ctx.fillStyle = prop.particleColor
+      ctx.fill()
     }
 
     position() {
       const senterX = w / 2,
-        senterY = h / 2;
+        senterY = h / 2
 
       let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))),
-        difference = ((prop.particleRadius - 2) - ((length / prop.bigRadius) * (prop.particleRadius - 2)));
-        
-      this.radius = Math.sign (this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
+        difference = ((prop.particleRadius - 2) - ((length / prop.bigRadius) * (prop.particleRadius - 2)))
+
+      this.radius = this.image ? 23.5 : Math.sign(this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
 
       if (length >= prop.bigRadius) {
-        this.velocityX *= -1;
-        this.velocityY *= -1;
+        this.velocityX *= -1
+        this.velocityY *= -1
       }
-      
-      this.x += this.velocityX * (1.2 - (length / prop.bigRadius));
-      this.y += this.velocityY * (1.2 - (length / prop.bigRadius));
+
+      this.x += this.velocityX * (1.2 - (length / prop.bigRadius))
+      this.y += this.velocityY * (1.2 - (length / prop.bigRadius))
     }
   }
 
   window.onresize = _=> {
-    w = canvas.width = wrap.offsetWidth;
-    h = canvas.height = wrap.offsetHeight;
+    w = canvas.width = wrap.offsetWidth
+    h = canvas.height = wrap.offsetHeight
   }
 
-  init();
-})();
+  init()
+})()
 
 const breakpoints = {
   'xlll': 1750,
