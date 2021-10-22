@@ -1280,12 +1280,12 @@ class coreMap {
       differenceAngel: 4,
       differenceCords: 10,
       images: [
-        '/img/circle_images/image_2.svg',
-        '/img/circle_images/image_3.svg',
-        '/img/circle_images/image_4.svg',
-        '/img/circle_images/image_5.svg',
-        '/img/circle_images/image_6.svg',
-        '/img/circle_images/image_1.svg'
+        '/assets/img/circle_images/image_3.svg',
+        '/assets/img/circle_images/image_4.svg',
+        '/assets/img/circle_images/image_5.svg',
+        '/assets/img/circle_images/image_6.svg',
+        '/assets/img/circle_images/image_1.svg',
+        '/assets/img/circle_images/image_2.svg'
       ]
     },
     reDrawBackground = _=> {
@@ -1307,14 +1307,17 @@ class coreMap {
         for (let b = a; b < maxlength; b++) {
         // for (let b = 0; b < prop.maxLinesCount; b++) {
 
-// console.log(a, b)
         // for (const b in particles) {
-          x1 = particles[a].x
-          y1 = particles[a].y
-          x2 = particles[b].x
-          y2 = particles[b].y
+          const dotA = particles[a],
+            dotB = particles[b]
+
+          x1 = dotA.x
+          y1 = dotA.y
+          x2 = dotB.x
+          y2 = dotB.y
           length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
-          if (length < prop.lineLingth) {
+          // if (length < prop.lineLingth) {
+          if (dotA.velocityX == dotB.velocityX && dotA.velocityY == dotB.velocityY) {
             opacity = 1 - length / prop.lineLingth
             ctx.lineWidth = '0.4'
             ctx.strokeStyle = `rgba(0, 180, 180, ${opacity})`
@@ -1327,6 +1330,11 @@ class coreMap {
           } else linesCount--
         }
       }
+    },
+    logoBg = _ => {
+      const image = new Image()
+      image.src = '/assets/img/netx_2025_logo.png'
+      ctx.drawImage(image, (w / 2 - image.width / 2), (h / 2 - image.height / 2), 212, 212);
     },
     circle = _=> {
       const y = wrap.offsetHeight / 2,
@@ -1342,8 +1350,9 @@ class coreMap {
       reDrawBackground()
       drowLines()
       reDrowParticles()
-      circle()
+      // circle()
       requestAnimationFrame(loop)
+      logoBg()
     },
     init = _=> {
       let count = 0,
@@ -1353,7 +1362,7 @@ class coreMap {
         const angel = (360 / prop.images.length) * i,
           cord = prop.bigRadius + 50
 
-        particles.push(new Particle(angel, cord, cord, true))
+        particles.push(new Particle(angel, cord, cord, prop.images[i]))
       }
 
       for (let i = 0; i < prop.particleCount; i++) {
@@ -1362,8 +1371,8 @@ class coreMap {
           cord = ((prop.bigRadius - prop.particleRadius) / prop.circlesCount) * count,
           cordWithRandomX = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
           cordWithRandomY = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
-          x = cordWithRandomX > prop.bigRadius ? prop.bigRadius : cordWithRandomX,
-          y = cordWithRandomY > prop.bigRadius ? prop.bigRadius : cordWithRandomY
+          x = cordWithRandomX > (prop.bigRadius - prop.particleRadius) ? prop.bigRadius - prop.particleRadius : cordWithRandomX,
+          y = cordWithRandomY > (prop.bigRadius - prop.particleRadius) ? prop.bigRadius - prop.particleRadius : cordWithRandomY
 
         if (count >= prop.circlesCount) {
           angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel)
@@ -1399,11 +1408,22 @@ class coreMap {
     }
 
     reDraw() {
+      const fillColor = this.image ? '#E1F1FF' : prop.particleColor
+
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
       ctx.closePath()
-      ctx.fillStyle = prop.particleColor
+      ctx.fillStyle = fillColor
       ctx.fill()
+      if (this.image) {
+        ctx.lineWidth = 1
+        ctx.strokeStyle = "#9FE5E5"
+        ctx.stroke();
+
+        const image = new Image()
+        image.src = this.image
+        ctx.drawImage(image, (this.x - image.width / 2), (this.y - image.height / 2), 30, 30);
+      }
     }
 
     position() {
