@@ -1331,7 +1331,7 @@ class coreMap {
         }
       }
     },
-    logoBg = _ => {
+    logo = _ => {
       const image = new Image()
       image.src = '/assets/img/netx_2025_logo.png'
       ctx.drawImage(image, (w / 2 - image.width / 2), (h / 2 - image.height / 2), 212, 212);
@@ -1352,7 +1352,7 @@ class coreMap {
       reDrowParticles()
       // circle()
       requestAnimationFrame(loop)
-      logoBg()
+      logo()
     },
     init = _=> {
       let count = 0,
