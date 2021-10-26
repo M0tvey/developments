@@ -1272,7 +1272,7 @@ class coreMap {
       bgColor: '#fff',
       particleColor: 'rgba(0, 233, 233, 1)',
       particleRadius: 3,
-      particleCount: 100,
+      particleCount: 150,
       lineLingth: 100,
       bigRadius: 180,
       maxLinesCount: 4,
@@ -1280,12 +1280,12 @@ class coreMap {
       differenceAngel: 4,
       differenceCords: 10,
       images: [
-        '/assets/img/circle_images/image_3.svg',
-        '/assets/img/circle_images/image_4.svg',
-        '/assets/img/circle_images/image_5.svg',
-        '/assets/img/circle_images/image_6.svg',
-        '/assets/img/circle_images/image_1.svg',
-        '/assets/img/circle_images/image_2.svg'
+        {url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30},
+        {url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30},
+        {url: '/assets/img/circle_images/image_5.svg', h: 30, w: 30},
+        {url: '/assets/img/circle_images/image_6.svg', h: 30, w: 30},
+        {url: '/assets/img/circle_images/image_1.svg', h: 30, w: 30},
+        {url: '/assets/img/circle_images/image_2.svg', h: 30, w: 30}
       ]
     },
     reDrawBackground = _=> {
@@ -1294,40 +1294,51 @@ class coreMap {
     },
     reDrowParticles = _=> {
       for (const i in particles) {
+        particles[i].id = i
         particles[i].reDraw()
         particles[i].position()
       }
     },
     drowLines = _=> {
-      let x1, y1, x2, y2, length, opacity, linesCount = 0, next = 0
+      let x1, y1, x2, y2, length, opacity, next = 0
 
       for (let a = 0; a < particles.length; a++) {
-        let maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount
+        let linesCount = 0,
+          maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount,
+          particlesB = particles.filter((dot, index) => {
+            // if (index >= a && index < maxlength) console.log(index)
+            return dot.image || index >= a && index <= maxlength
+          })
 
-        for (let b = a; b < maxlength; b++) {
+        // for (let b = a; b < maxlength; b++) {
         // for (let b = 0; b < prop.maxLinesCount; b++) {
-
         // for (const b in particles) {
+          for (const b in particlesB) {
+
+          // const dotA = particles[a],
+          //   dotB = particles[b]
           const dotA = particles[a],
-            dotB = particles[b]
+            dotB = particlesB[b]
 
           x1 = dotA.x
           y1 = dotA.y
           x2 = dotB.x
           y2 = dotB.y
           length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+
           // if (length < prop.lineLingth) {
-          if (dotA.velocityX == dotB.velocityX && dotA.velocityY == dotB.velocityY) {
+          // if (linesCount < prop.maxLinesCount) {
+          // if (dotA.velocityX == dotB.velocityX && dotA.velocityY == dotB.velocityY) {
             opacity = 1 - length / prop.lineLingth
             ctx.lineWidth = '0.4'
-            ctx.strokeStyle = `rgba(0, 180, 180, ${opacity})`
+            ctx.strokeStyle = dotB.image ? `rgba(7, 87, 179, ${opacity})` : `rgba(0, 180, 180, ${opacity})`
             ctx.beginPath()
             ctx.moveTo(x1, y1)
             ctx.lineTo(x2, y2)
             ctx.closePath()
             ctx.stroke()
-            linesCount++;
-          } else linesCount--
+            linesCount++
+          // }
         }
       }
     },
@@ -1421,8 +1432,8 @@ class coreMap {
         ctx.stroke();
 
         const image = new Image()
-        image.src = this.image
-        ctx.drawImage(image, (this.x - image.width / 2), (this.y - image.height / 2), 30, 30);
+        image.src = this.image.url
+        ctx.drawImage(image, (this.x - image.width / 2), (this.y - image.height / 2), this.image.h, this.image.w);
       }
     }
 
