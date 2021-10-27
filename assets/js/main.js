@@ -1272,20 +1272,25 @@ class coreMap {
       bgColor: '#fff',
       particleColor: 'rgba(0, 233, 233, 1)',
       particleRadius: 3,
-      particleCount: 150,
+      particleCount: 200,
       lineLingth: 100,
-      bigRadius: 180,
+      bigRadius: 200,
       maxLinesCount: 4,
       circlesCount: 4,
       differenceAngel: 4,
       differenceCords: 10,
-      images: [
+      radiusImages: [
         {url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30},
         {url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30},
         {url: '/assets/img/circle_images/image_5.svg', h: 30, w: 30},
         {url: '/assets/img/circle_images/image_6.svg', h: 30, w: 30},
         {url: '/assets/img/circle_images/image_1.svg', h: 30, w: 30},
         {url: '/assets/img/circle_images/image_2.svg', h: 30, w: 30}
+      ],
+      customImages: [
+        {url: '/assets/img/circle_images/5g.png', h: 100, w: 100, x: 230, y: 120, custom: true},
+        {url: '/assets/img/circle_images/ai.png', h: 100, w: 100, x: 420, y: 260, custom: true},
+        {url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true}
       ]
     },
     reDrawBackground = _=> {
@@ -1313,7 +1318,7 @@ class coreMap {
         // for (let b = a; b < maxlength; b++) {
         // for (let b = 0; b < prop.maxLinesCount; b++) {
         // for (const b in particles) {
-          for (const b in particlesB) {
+        for (const b in particlesB) {
 
           // const dotA = particles[a],
           //   dotB = particles[b]
@@ -1328,7 +1333,7 @@ class coreMap {
 
           // if (length < prop.lineLingth) {
           // if (linesCount < prop.maxLinesCount) {
-          // if (dotA.velocityX == dotB.velocityX && dotA.velocityY == dotB.velocityY) {
+          // if (!dotB.image.custom && !dotA.velocityX != 1) {
             opacity = 1 - length / prop.lineLingth
             ctx.lineWidth = '0.4'
             ctx.strokeStyle = dotB.image ? `rgba(7, 87, 179, ${opacity})` : `rgba(0, 180, 180, ${opacity})`
@@ -1337,7 +1342,7 @@ class coreMap {
             ctx.lineTo(x2, y2)
             ctx.closePath()
             ctx.stroke()
-            linesCount++
+            // linesCount++
           // }
         }
       }
@@ -1369,11 +1374,11 @@ class coreMap {
       let count = 0,
         angel = 0
 
-      for (let i = 0; i < prop.images.length; i++) {
-        const angel = (360 / prop.images.length) * i,
+      for (let i = 0; i < prop.radiusImages.length; i++) {
+        const angel = (360 / prop.radiusImages.length) * i,
           cord = prop.bigRadius + 50
 
-        particles.push(new Particle(angel, cord, cord, prop.images[i]))
+        particles.push(new Particle(angel, cord, cord, prop.radiusImages[i]))
       }
 
       for (let i = 0; i < prop.particleCount; i++) {
@@ -1397,25 +1402,30 @@ class coreMap {
         count++
       }
 
+      for (let i = 0; i < prop.customImages.length; i++) {
+        const angel = (360 / prop.customImages.length) * i,
+          image = prop.customImages[i]
+
+        particles.push(new Particle(angel, image.x, image.y, image))
+      }
+
       loop()
     };
 
-  let w = canvas.width = wrap.offsetWidth,
-    h = canvas.height = wrap.offsetHeight
+  let w = canvas.width = 560,
+    h = canvas.height = 490
 
   wrap.append(canvas)
   
   class Particle {
     constructor(angel, cordX, cordY, isImage = false) {
-      // const angell = Math.random() * 360;
-
       this.centerDistance = 0
-      this.x = (w / 2) + (Math.cos(angel * (Math.PI / 180)) * cordX)
-      this.y = (h / 2) + (Math.sin(angel * (Math.PI / 180)) * cordY)
+      this.image = isImage
+      this.x = this.image.x ? this.image.x : (w / 2) + (Math.cos(angel * (Math.PI / 180)) * cordX)
+      this.y = this.image.y ? this.image.y : (h / 2) + (Math.sin(angel * (Math.PI / 180)) * cordY)
       this.velocityX = 1
       this.velocityY = 0
       this.radius = prop.particleRadius
-      this.image = isImage
     }
 
     reDraw() {
@@ -1429,11 +1439,11 @@ class coreMap {
       if (this.image) {
         ctx.lineWidth = 1
         ctx.strokeStyle = "#9FE5E5"
-        ctx.stroke();
+        ctx.stroke()
 
         const image = new Image()
         image.src = this.image.url
-        ctx.drawImage(image, (this.x - image.width / 2), (this.y - image.height / 2), this.image.h, this.image.w);
+        ctx.drawImage(image, this.x - image.width / 2, this.y - image.height / 2, this.image.h, this.image.w);
       }
     }
 
@@ -1444,8 +1454,9 @@ class coreMap {
       let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))),
         difference = ((prop.particleRadius - 2) - ((length / prop.bigRadius) * (prop.particleRadius - 2)))
 
-      this.radius = this.image ? 23.5 : Math.sign(this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
+      this.radius = this.image && !this.image.custom ? 23.5 : Math.sign(this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
 
+      if (this.image) return
       if (length >= prop.bigRadius) {
         this.velocityX *= -1
         this.velocityY *= -1
@@ -1454,11 +1465,6 @@ class coreMap {
       this.x += this.velocityX * (1.2 - (length / prop.bigRadius))
       this.y += this.velocityY * (1.2 - (length / prop.bigRadius))
     }
-  }
-
-  window.onresize = _=> {
-    w = canvas.width = wrap.offsetWidth
-    h = canvas.height = wrap.offsetHeight
   }
 
   init()
