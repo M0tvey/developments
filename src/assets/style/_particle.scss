@@ -2,3 +2,18 @@
   line-height: 0;
   height: calc(100% - 60px);
 }
+
+.particles_circle {
+  &_wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  &_image{
+    &_wrap {
+      line-height: 0;
+      text-align: center;
+      background-color: #fff;
+    }
+  }
+}

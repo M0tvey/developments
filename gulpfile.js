@@ -46,7 +46,6 @@ var path = {
   src: { //Пути откуда брать исходники
     html: ['src/*.html', 'src/assets/**/*.html', 'src/*.json'], //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
     js: [
-
       'node_modules/jquery/dist/jquery.min.js',
       'node_modules/slick-carousel/slick/slick.min.js',
       'node_modules/mmenu-js/dist/mmenu.js',
@@ -61,10 +60,13 @@ var path = {
       'node_modules/select2/dist/js/i18n/ru.js',
       'node_modules/swiper/swiper-bundle.min.js',
       // my scripts
+      'src/assets/js/three.min.js',
+      'src/assets/js/gsap-latest-beta.min.js',
       'src/assets/js/core_map.js',
       'src/assets/js/cursor.js',
       'src/assets/js/particle.js',
       'src/assets/js/particle_circle.js',
+      'src/assets/js/particle_circle_webgl.js',
       
       'src/assets/js/main.js'
     ],
