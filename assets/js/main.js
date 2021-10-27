@@ -1577,13 +1577,10 @@ class coreMap {
   var renderingParent = new THREE.Group();
   // renderingParent.add(particles);
 
-  var resizeContainer = new THREE.Group();
-  resizeContainer.add(renderingParent);
 
   var sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20);
   var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00dede });
   var sphereThree = [];
-  // const Pmaterial = new THREE.LineBasicMaterial({ color: 0x00FCFC, linewidth: 1 });
   for (var i = 0; i < prop.particleCount; i++) {
     sphereThree[i] = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
@@ -1597,7 +1594,7 @@ class coreMap {
     renderingParent.add(sphereThree[i])
   }
   // 
-  const Lmaterial = new THREE.LineBasicMaterial({ color: 0x00FCFC, linewidth: 1 });
+  const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff, linewidth: 1 });
   renderingParent.children.forEach((pointA, iA) => {
     let iB = iA + 1;
     iB = iB >= renderingParent.children.length - 1 ? 0 : iB;
@@ -1624,6 +1621,8 @@ class coreMap {
   // const line = new THREE.Line( Lgeometry, Lmaterial );
   // 
 
+  var resizeContainer = new THREE.Group();
+  resizeContainer.add(renderingParent);
   scene.add(resizeContainer);
 
   camera.position.z = 400;
