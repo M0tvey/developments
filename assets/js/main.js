@@ -1484,82 +1484,206 @@ class coreMap {
 
   init()
 })();
+// 258
 // -------------------------------- particles animation circle WebGl --------------------------------
-(_=>{
+(_ => {
   const wrap = document.querySelector('.particles_circle_webgl')
-  if (wrap)
+  if (!wrap) return
+
+  const prop = {
+    size: [w, h] = [560, 490],
+    bgColor: 0xffffff,
+    particleColor: 'rgba(0, 233, 233, 1)',
+    particleRadius: 3,
+    particleCount: 300,
+    lineLingth: 100,
+    bigRadius: 200,
+    maxLinesCount: 4,
+    circlesCount: 4,
+    differenceAngel: 4,
+    differenceCords: 10,
+    radiusImages: [
+      { url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30 },
+      { url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30 },
+      { url: '/assets/img/circle_images/image_5.svg', h: 30, w: 30 },
+      { url: '/assets/img/circle_images/image_6.svg', h: 30, w: 30 },
+      { url: '/assets/img/circle_images/image_1.svg', h: 30, w: 30 },
+      { url: '/assets/img/circle_images/image_2.svg', h: 30, w: 30 }
+    ],
+    customImages: [
+      { url: '/assets/img/circle_images/5g.png', h: 100, w: 100, x: 230, y: 120, custom: true },
+      { url: '/assets/img/circle_images/ai.png', h: 100, w: 100, x: 420, y: 260, custom: true },
+      { url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true }
+    ]
+  }
+
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(w, h);
+  renderer.setClearColor(prop.bgColor, 1);
 
   var scene = new THREE.Scene();
-  document.addEventListener( 'mousemove', onMouseMove, false );
-  var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ),
+  wrap.addEventListener('mousemove', onMouseMove, false);
+  var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000),
     mouseX,
     mouseY;
-  
-  var renderer = new THREE.WebGLRenderer();
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  wrap.appendChild( renderer.domElement );
-  
-  window.addEventListener("resize", function() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-  });
-  
-  var distance = Math.min(200, window.innerWidth / 4);
+  wrap.appendChild(renderer.domElement);
+
+  // window.addEventListener("resize", function() {
+  //   camera.aspect = window.innerWidth / window.innerHeight;
+  //   camera.updateProjectionMatrix();
+  //   renderer.setSize( window.innerWidth, window.innerHeight );
+  // });
+
   var geometry = new THREE.Geometry();
-  
-  for (var i = 0; i < 1600; i++) {
-  
-    var vertex = new THREE.Vector3();
-  
-    var theta = THREE.Math.randFloatSpread(360); 
-    var phi = THREE.Math.randFloatSpread(360); 
-  
-    vertex.x = distance * Math.sin(theta) * Math.cos(phi);
-    vertex.y = distance * Math.sin(theta) * Math.sin(phi);
-    vertex.z = distance * Math.cos(theta);
-  
-    geometry.vertices.push(vertex);
-  }
-  var particles = new THREE.Points(geometry, new THREE.PointsMaterial({color: 0xff44ff, size: 2}));
-  particles.boundingSphere = 50;
-  
-  
+
+  // for (var i = 0; i < prop.particleCount; i++) {
+  //   var vertex = new THREE.Vector3();
+
+  //   var theta = THREE.Math.randFloatSpread(360);
+  //   var phi = THREE.Math.randFloatSpread(360);
+
+  //   vertex.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi);
+  //   vertex.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi);
+  //   vertex.z = prop.bigRadius * Math.cos(theta);
+
+  //   geometry.vertices.push(vertex);
+  // }
+
+  // function createCanvasMaterial(color, size) {
+  //   var matCanvas = document.createElement('canvas');
+  //   matCanvas.width = matCanvas.height = size;
+  //   var matContext = matCanvas.getContext('2d');
+  //   matContext.fillStyle = prop.bgColor
+  //   var texture = new THREE.Texture(matCanvas);
+  //   var center = size / 2;
+  //   matContext.beginPath();
+  //   matContext.arc(center, center, size/2, 0, 2 * Math.PI, false);
+  //   matContext.closePath();
+  //   matContext.fillStyle = color;
+  //   matContext.fill();
+  //   texture.needsUpdate = true;
+  //   return texture;
+  // }
+
+  // var particles = new THREE.Points(geometry, new THREE.PointsMaterial({
+  //   color: 0x00dede,
+  //   size: prop.particleRadius,
+  //   map: createCanvasMaterial('#00dede', 256),
+  //   transparent: true,
+  //   depthWrite: false
+  // }));
+  // particles.boundingSphere = 50;
+
   var renderingParent = new THREE.Group();
-  renderingParent.add(particles);
-  
+  // renderingParent.add(particles);
+
   var resizeContainer = new THREE.Group();
   resizeContainer.add(renderingParent);
+
+  var sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20);
+  var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00dede });
+  var sphereThree = [];
+  // const Pmaterial = new THREE.LineBasicMaterial({ color: 0x00FCFC, linewidth: 1 });
+  for (var i = 0; i < prop.particleCount; i++) {
+    sphereThree[i] = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+    var theta = THREE.Math.randFloatSpread(360);
+    var phi = THREE.Math.randFloatSpread(360);
+
+    sphereThree[i].position.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi);
+    sphereThree[i].position.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi);
+    sphereThree[i].position.z = prop.bigRadius * Math.cos(theta);
+
+    renderingParent.add(sphereThree[i])
+  }
+  // 
+  const Lmaterial = new THREE.LineBasicMaterial({ color: 0x00FCFC, linewidth: 1 });
+  renderingParent.children.forEach((pointA, iA) => {
+    let iB = iA + 1;
+    iB = iB >= renderingParent.children.length - 1 ? 0 : iB;
+    const pointB = renderingParent.children[iB];
+
+    const points = [];
+    points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z));
+    points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z));
+
+    const Lgeometry = new THREE.BufferGeometry().setFromPoints(points);
+    renderingParent.add(new THREE.Line(Lgeometry, Lmaterial));
+  });
+
+  // x: 100.40641971464801
+  // y: -13.406094207598603
+  // z: -172.44949265852577
+
+  // const points = [];
+  // points.push( new THREE.Vector3( -162.48144578889818, -60.721751920439814, 99.5622851187231 ) );
+  // points.push( new THREE.Vector3( 32.0799901503639, -43.76437175084557, -192.4981921920472 ) );
+
+  // const Lgeometry = new THREE.BufferGeometry().setFromPoints( points );
+
+  // const line = new THREE.Line( Lgeometry, Lmaterial );
+  // 
+
   scene.add(resizeContainer);
-  
+
   camera.position.z = 400;
-  
+
   var animate = function () {
-    requestAnimationFrame( animate );
-    renderer.render( scene, camera );
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
   };
+
+
   var myTween;
   function onMouseMove(event) {
-    if(myTween)
+    if (myTween)
       myTween.kill();
-    
-    mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouseY = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    myTween = gsap.to(particles.rotation, {duration: 0.1, x: mouseY*-1, y: mouseX});
+
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
+    myTween = gsap.to(renderingParent.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX });
     //particles.rotation.x = mouseY*-1;
     //particles.rotation.y = mouseX;
   }
   animate();
-  
+
   // Scaling animation
-  var animProps = {scale: 1, xRot: 0, yRot: 0};
+  var animProps = { scale: 1, xRot: 0, yRot: 0 };
   // gsap.to(animProps, {duration: 10, scale: 1.3, repeat: -1, yoyo: true, ease: "sine", onUpdate: function() {
   //   renderingParent.scale.set(animProps.scale,animProps.scale,animProps.scale);
   // }});
-  
-  gsap.to(animProps, {duration: 120, xRot: Math.PI * 2, yRot: Math.PI * 4, repeat: -1, yoyo: true, ease: "none", onUpdate: function() {
-    renderingParent.rotation.set(animProps.xRot,animProps.yRot,0);
-  }});
+
+  gsap.to(
+    animProps, {
+    duration: 120,
+    xRot: Math.PI * 2,
+    yRot: Math.PI * 4,
+    repeat: -1,
+    yoyo: true,
+    ease: "none",
+    onUpdate: function () {
+      resizeContainer.rotation.set(animProps.xRot, animProps.yRot, 0);
+      // renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
+    }
+  }
+  );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // //////////////////////////////////
   // const canvas = document.createElement('canvas'),
   //   ctx = canvas.getContext('2d'),
@@ -1690,9 +1814,9 @@ class coreMap {
   //         angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel)
   //         count = 0
   //       }
-        
+
   //       particles.push(new Particle(angel, x, y))
-        
+
   //       if (i > prop.particleCount / 2) particles[i].velocityX = -1
 
   //       count++
@@ -1712,7 +1836,7 @@ class coreMap {
   //   h = canvas.height = 490
 
   // wrap.append(canvas)
-  
+
   // class Particle {
   //   constructor(angel, cordX, cordY, isImage = false) {
   //     this.centerDistance = 0
