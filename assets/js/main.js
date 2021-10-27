@@ -1494,14 +1494,11 @@ class coreMap {
     size: [w, h] = [560, 490],
     bgColor: 0xffffff,
     particleColor: 'rgba(0, 233, 233, 1)',
-    particleRadius: 3,
-    particleCount: 300,
+    particleRadius: 2,
+    particleCount: 350,
     lineLingth: 100,
     bigRadius: 200,
-    maxLinesCount: 4,
-    circlesCount: 4,
-    differenceAngel: 4,
-    differenceCords: 10,
+    maxLinesCount: 2,
     radiusImages: [
       { url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30 },
       { url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30 },
@@ -1517,140 +1514,111 @@ class coreMap {
     ]
   }
 
-  var renderer = new THREE.WebGLRenderer();
-  renderer.setSize(w, h);
-  renderer.setClearColor(prop.bgColor, 1);
+  var renderer = new THREE.WebGLRenderer()
+  renderer.setSize(w, h)
+  renderer.setClearColor(prop.bgColor, 1)
 
-  var scene = new THREE.Scene();
-  wrap.addEventListener('mousemove', onMouseMove, false);
+  var scene = new THREE.Scene()
+  wrap.addEventListener('mousemove', onMouseMove, false)
   var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000),
     mouseX,
     mouseY;
-  wrap.appendChild(renderer.domElement);
+  wrap.appendChild(renderer.domElement)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   // window.addEventListener("resize", function() {
   //   camera.aspect = window.innerWidth / window.innerHeight;
-  //   camera.updateProjectionMatrix();
-  //   renderer.setSize( window.innerWidth, window.innerHeight );
-  // });
+  //   camera.updateProjectionMatrix()
+  //   renderer.setSize( window.innerWidth, window.innerHeight )
+  // })
 
-  var geometry = new THREE.Geometry();
+  // ----------------------- poinys
+  const renderingParent = new THREE.Group(),
+    sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20),
+    sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00dede }),
+    sphereThree = []
 
-  // for (var i = 0; i < prop.particleCount; i++) {
-  //   var vertex = new THREE.Vector3();
-
-  //   var theta = THREE.Math.randFloatSpread(360);
-  //   var phi = THREE.Math.randFloatSpread(360);
-
-  //   vertex.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi);
-  //   vertex.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi);
-  //   vertex.z = prop.bigRadius * Math.cos(theta);
-
-  //   geometry.vertices.push(vertex);
-  // }
-
-  // function createCanvasMaterial(color, size) {
-  //   var matCanvas = document.createElement('canvas');
-  //   matCanvas.width = matCanvas.height = size;
-  //   var matContext = matCanvas.getContext('2d');
-  //   matContext.fillStyle = prop.bgColor
-  //   var texture = new THREE.Texture(matCanvas);
-  //   var center = size / 2;
-  //   matContext.beginPath();
-  //   matContext.arc(center, center, size/2, 0, 2 * Math.PI, false);
-  //   matContext.closePath();
-  //   matContext.fillStyle = color;
-  //   matContext.fill();
-  //   texture.needsUpdate = true;
-  //   return texture;
-  // }
-
-  // var particles = new THREE.Points(geometry, new THREE.PointsMaterial({
-  //   color: 0x00dede,
-  //   size: prop.particleRadius,
-  //   map: createCanvasMaterial('#00dede', 256),
-  //   transparent: true,
-  //   depthWrite: false
-  // }));
-  // particles.boundingSphere = 50;
-
-  var renderingParent = new THREE.Group();
-  // renderingParent.add(particles);
-
-
-  var sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20);
-  var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00dede });
-  var sphereThree = [];
   for (var i = 0; i < prop.particleCount; i++) {
-    sphereThree[i] = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphereThree[i] = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
-    var theta = THREE.Math.randFloatSpread(360);
-    var phi = THREE.Math.randFloatSpread(360);
+    var theta = THREE.Math.randFloatSpread(360)
+    var phi = THREE.Math.randFloatSpread(360)
 
-    sphereThree[i].position.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi);
-    sphereThree[i].position.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi);
-    sphereThree[i].position.z = prop.bigRadius * Math.cos(theta);
+    sphereThree[i].position.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi)
+    sphereThree[i].position.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi)
+    sphereThree[i].position.z = prop.bigRadius * Math.cos(theta)
+    sphereThree[i].lines = 0
 
     renderingParent.add(sphereThree[i])
   }
-  // 
-  const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff, linewidth: 1 });
-  renderingParent.children.forEach((pointA, iA) => {
-    let iB = iA + 1;
-    iB = iB >= renderingParent.children.length - 1 ? 0 : iB;
-    const pointB = renderingParent.children[iB];
+  // ----------------------- lines
+  const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
+  let lines = {}
+  renderingParent.children.forEach(pointA => {
+    renderingParent.children.forEach(pointB => {
+      if (!lines[pointB.uuid] || lines[pointB.uuid] <= prop.maxLinesCount) {
+        const dx = pointA.position.x - pointB.position.x,
+          dy = pointA.position.y - pointB.position.y,
+          dz = pointA.position.z - pointB.position.z,
+          distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
 
-    const points = [];
-    points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z));
-    points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z));
+        if (distance <= prop.lineLingth && distance != 0) {
+          const points = [];
+          points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z))
+          points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z))
 
-    const Lgeometry = new THREE.BufferGeometry().setFromPoints(points);
-    renderingParent.add(new THREE.Line(Lgeometry, Lmaterial));
-  });
+          const Lgeometry = new THREE.BufferGeometry().setFromPoints(points)
+          renderingParent.add(new THREE.Line(Lgeometry, Lmaterial))
+          lines[pointB.uuid] = lines[pointB.uuid] ? lines[pointB.uuid] + 1 : 1
+        }
+      }
+    })
+  })
 
-  // x: 100.40641971464801
-  // y: -13.406094207598603
-  // z: -172.44949265852577
-
-  // const points = [];
-  // points.push( new THREE.Vector3( -162.48144578889818, -60.721751920439814, 99.5622851187231 ) );
-  // points.push( new THREE.Vector3( 32.0799901503639, -43.76437175084557, -192.4981921920472 ) );
-
-  // const Lgeometry = new THREE.BufferGeometry().setFromPoints( points );
-
-  // const line = new THREE.Line( Lgeometry, Lmaterial );
-  // 
-
-  var resizeContainer = new THREE.Group();
-  resizeContainer.add(renderingParent);
-  scene.add(resizeContainer);
+  var resizeContainer = new THREE.Group()
+  resizeContainer.add(renderingParent)
+  scene.add(resizeContainer)
 
   camera.position.z = 400;
 
   var animate = function () {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+    requestAnimationFrame(animate)
+    renderer.render(scene, camera)
   };
 
 
   var myTween;
   function onMouseMove(event) {
     if (myTween)
-      myTween.kill();
+      myTween.kill()
 
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
-    myTween = gsap.to(renderingParent.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX });
+    myTween = gsap.to(renderingParent.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX })
     //particles.rotation.x = mouseY*-1;
     //particles.rotation.y = mouseX;
   }
-  animate();
+  animate()
 
   // Scaling animation
   var animProps = { scale: 1, xRot: 0, yRot: 0 };
   // gsap.to(animProps, {duration: 10, scale: 1.3, repeat: -1, yoyo: true, ease: "sine", onUpdate: function() {
-  //   renderingParent.scale.set(animProps.scale,animProps.scale,animProps.scale);
-  // }});
+  //   renderingParent.scale.set(animProps.scale,animProps.scale,animProps.scale)
+  // }})
 
   gsap.to(
     animProps, {
@@ -1661,233 +1629,13 @@ class coreMap {
     yoyo: true,
     ease: "none",
     onUpdate: function () {
-      resizeContainer.rotation.set(animProps.xRot, animProps.yRot, 0);
-      // renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
+      resizeContainer.rotation.set(animProps.xRot, animProps.yRot, 0)
+
+      // renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0)
     }
   }
-  );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // //////////////////////////////////
-  // const canvas = document.createElement('canvas'),
-  //   ctx = canvas.getContext('2d'),
-  //   particles = [],
-  //   prop = {
-  //     bgColor: '#fff',
-  //     particleColor: 'rgba(0, 233, 233, 1)',
-  //     particleRadius: 3,
-  //     particleCount: 200,
-  //     lineLingth: 100,
-  //     bigRadius: 200,
-  //     maxLinesCount: 4,
-  //     circlesCount: 4,
-  //     differenceAngel: 4,
-  //     differenceCords: 10,
-  //     radiusImages: [
-  //       {url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30},
-  //       {url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30},
-  //       {url: '/assets/img/circle_images/image_5.svg', h: 30, w: 30},
-  //       {url: '/assets/img/circle_images/image_6.svg', h: 30, w: 30},
-  //       {url: '/assets/img/circle_images/image_1.svg', h: 30, w: 30},
-  //       {url: '/assets/img/circle_images/image_2.svg', h: 30, w: 30}
-  //     ],
-  //     customImages: [
-  //       {url: '/assets/img/circle_images/5g.png', h: 100, w: 100, x: 230, y: 120, custom: true},
-  //       {url: '/assets/img/circle_images/ai.png', h: 100, w: 100, x: 420, y: 260, custom: true},
-  //       {url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true}
-  //     ]
-  //   },
-  //   reDrawBackground = _=> {
-  //     ctx.fillStyle = prop.bgColor
-  //     ctx.fillRect(0, 0, w, h)
-  //   },
-  //   reDrowParticles = _=> {
-  //     for (const i in particles) {
-  //       particles[i].id = i
-  //       particles[i].reDraw()
-  //       particles[i].position()
-  //     }
-  //   },
-  //   drowLines = _=> {
-  //     let x1, y1, x2, y2, length, opacity, next = 0
-
-  //     for (let a = 0; a < particles.length; a++) {
-  //       let linesCount = 0,
-  //         maxlength = (a + prop.maxLinesCount) >= particles.length ? 0 : a + prop.maxLinesCount,
-  //         particlesB = particles.filter((dot, index) => {
-  //           // if (index >= a && index < maxlength) console.log(index)
-  //           return dot.image || index >= a && index <= maxlength
-  //         })
-
-  //       // for (let b = a; b < maxlength; b++) {
-  //       // for (let b = 0; b < prop.maxLinesCount; b++) {
-  //       // for (const b in particles) {
-  //       for (const b in particlesB) {
-
-  //         // const dotA = particles[a],
-  //         //   dotB = particles[b]
-  //         const dotA = particles[a],
-  //           dotB = particlesB[b]
-
-  //         x1 = dotA.x
-  //         y1 = dotA.y
-  //         x2 = dotB.x
-  //         y2 = dotB.y
-  //         length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
-
-  //         // if (length < prop.lineLingth) {
-  //         // if (linesCount < prop.maxLinesCount) {
-  //         // if (!dotB.image.custom && !dotA.velocityX != 1) {
-  //           opacity = 1 - length / prop.lineLingth
-  //           ctx.lineWidth = '0.4'
-  //           ctx.strokeStyle = dotB.image ? `rgba(7, 87, 179, ${opacity})` : `rgba(0, 180, 180, ${opacity})`
-  //           ctx.beginPath()
-  //           ctx.moveTo(x1, y1)
-  //           ctx.lineTo(x2, y2)
-  //           ctx.closePath()
-  //           ctx.stroke()
-  //           // linesCount++
-  //         // }
-  //       }
-  //     }
-  //   },
-  //   logo = _ => {
-  //     const image = new Image()
-  //     image.src = '/assets/img/netx_2025_logo.png'
-  //     ctx.drawImage(image, (w / 2 - image.width / 2), (h / 2 - image.height / 2), 212, 212);
-  //   },
-  //   circle = _=> {
-  //     const y = wrap.offsetHeight / 2,
-  //       x = wrap.offsetWidth / 2
-
-  //     ctx.beginPath()
-  //     ctx.arc(x, y, prop.bigRadius, 0, Math.PI * 2)
-  //     ctx.closePath()
-  //     ctx.fillStyle = 'rgba(46, 110, 45, .1)'
-  //     ctx.fill()
-  //   },
-  //   loop = _=> {
-  //     reDrawBackground()
-  //     drowLines()
-  //     reDrowParticles()
-  //     // circle()
-  //     requestAnimationFrame(loop)
-  //     logo()
-  //   },
-  //   init = _=> {
-  //     let count = 0,
-  //       angel = 0
-
-  //     for (let i = 0; i < prop.radiusImages.length; i++) {
-  //       const angel = (360 / prop.radiusImages.length) * i,
-  //         cord = prop.bigRadius + 50
-
-  //       particles.push(new Particle(angel, cord, cord, prop.radiusImages[i]))
-  //     }
-
-  //     for (let i = 0; i < prop.particleCount; i++) {
-
-  //       const angelId = (720 / prop.particleCount) * i,
-  //         cord = ((prop.bigRadius - prop.particleRadius) / prop.circlesCount) * count,
-  //         cordWithRandomX = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
-  //         cordWithRandomY = Math.random() * ((cord + prop.differenceCords) - (cord - prop.differenceCords) + 1) + (cord - prop.differenceCords),
-  //         x = cordWithRandomX > (prop.bigRadius - prop.particleRadius) ? prop.bigRadius - prop.particleRadius : cordWithRandomX,
-  //         y = cordWithRandomY > (prop.bigRadius - prop.particleRadius) ? prop.bigRadius - prop.particleRadius : cordWithRandomY
-
-  //       if (count >= prop.circlesCount) {
-  //         angel = Math.random() * ((angelId + prop.differenceAngel) - (angelId - prop.differenceAngel) + 1) + (angelId - prop.differenceAngel)
-  //         count = 0
-  //       }
-
-  //       particles.push(new Particle(angel, x, y))
-
-  //       if (i > prop.particleCount / 2) particles[i].velocityX = -1
-
-  //       count++
-  //     }
-
-  //     for (let i = 0; i < prop.customImages.length; i++) {
-  //       const angel = (360 / prop.customImages.length) * i,
-  //         image = prop.customImages[i]
-
-  //       particles.push(new Particle(angel, image.x, image.y, image))
-  //     }
-
-  //     loop()
-  //   };
-
-  // let w = canvas.width = 560,
-  //   h = canvas.height = 490
-
-  // wrap.append(canvas)
-
-  // class Particle {
-  //   constructor(angel, cordX, cordY, isImage = false) {
-  //     this.centerDistance = 0
-  //     this.image = isImage
-  //     this.x = this.image.x ? this.image.x : (w / 2) + (Math.cos(angel * (Math.PI / 180)) * cordX)
-  //     this.y = this.image.y ? this.image.y : (h / 2) + (Math.sin(angel * (Math.PI / 180)) * cordY)
-  //     this.velocityX = 1
-  //     this.velocityY = 0
-  //     this.radius = prop.particleRadius
-  //   }
-
-  //   reDraw() {
-  //     const fillColor = this.image ? '#E1F1FF' : prop.particleColor
-
-  //     ctx.beginPath();
-  //     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
-  //     ctx.closePath()
-  //     ctx.fillStyle = fillColor
-  //     ctx.fill()
-  //     if (this.image) {
-  //       ctx.lineWidth = 1
-  //       ctx.strokeStyle = "#9FE5E5"
-  //       ctx.stroke()
-
-  //       const image = new Image()
-  //       image.src = this.image.url
-  //       ctx.drawImage(image, this.x - image.width / 2, this.y - image.height / 2, this.image.h, this.image.w);
-  //     }
-  //   }
-
-  //   position() {
-  //     const senterX = w / 2,
-  //       senterY = h / 2
-
-  //     let length = (Math.sqrt(Math.pow(this.x - senterX, 2) + Math.pow(this.y - senterY, 2))),
-  //       difference = ((prop.particleRadius - 2) - ((length / prop.bigRadius) * (prop.particleRadius - 2)))
-
-  //     this.radius = this.image && !this.image.custom ? 23.5 : Math.sign(this.velocityX) == 1 ? prop.particleRadius + difference : prop.particleRadius - difference
-
-  //     if (this.image) return
-  //     if (length >= prop.bigRadius) {
-  //       this.velocityX *= -1
-  //       this.velocityY *= -1
-  //     }
-
-  //     this.x += this.velocityX * (1.2 - (length / prop.bigRadius))
-  //     this.y += this.velocityY * (1.2 - (length / prop.bigRadius))
-  //   }
-  // }
-
-  // init()
-})();
+  )
+})()
 
 const breakpoints = {
   'xlll': 1750,
