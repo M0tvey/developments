@@ -1484,7 +1484,6 @@ class coreMap {
 
   init()
 })();
-// 258
 // -------------------------------- particles animation circle WebGl --------------------------------
 (_ => {
   const wrap = document.querySelector('.particles_circle_webgl')
@@ -1493,131 +1492,192 @@ class coreMap {
   const prop = {
     size: [w, h] = [560, 490],
     bgColor: 0xffffff,
-    particleColor: 'rgba(0, 233, 233, 1)',
+    particleColor: 0x00dede,
     particleRadius: 2,
     particleCount: 350,
     lineLingth: 100,
     bigRadius: 200,
-    maxLinesCount: 2,
-    radiusImages: [
-      { url: '/assets/img/circle_images/image_3.svg', h: 30, w: 30 },
-      { url: '/assets/img/circle_images/image_4.svg', h: 30, w: 30 },
-      { url: '/assets/img/circle_images/image_5.svg', h: 30, w: 30 },
-      { url: '/assets/img/circle_images/image_6.svg', h: 30, w: 30 },
-      { url: '/assets/img/circle_images/image_1.svg', h: 30, w: 30 },
-      { url: '/assets/img/circle_images/image_2.svg', h: 30, w: 30 }
-    ],
-    customImages: [
-      { url: '/assets/img/circle_images/5g.png', h: 100, w: 100, x: 230, y: 120, custom: true },
-      { url: '/assets/img/circle_images/ai.png', h: 100, w: 100, x: 420, y: 260, custom: true },
-      { url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true }
-    ]
-  }
+    maxLinesCount: 2
+  },
+  radiusImages = [
+    { url: '/assets/img/circle_images/image_3.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_2.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_1.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_6.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_5.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_4.png', h: 30, w: 30, cord: prop.bigRadius+20},
+  ],
+  radiusImagesArr = [],
+  customImages = [
+    { url: '/assets/img/circle_images/5g.png', h: 100, w: 100, x: 230, y: 120, custom: true },
+    { url: '/assets/img/circle_images/ai.png', h: 100, w: 100, x: 420, y: 260, custom: true },
+    { url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true }
+  ],
+  renderer = new THREE.WebGLRenderer(),
+  pointsEndLines = new THREE.Group(),
+  pointsEndImages = new THREE.Group(),
+  loader = new THREE.TextureLoader(),
+  addImage = (angel, imgObj) => {
+    loader.load(imgObj.url, (texture) => {
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+      })
+      material.map.minFilter = THREE.NearestFilter
 
-  var renderer = new THREE.WebGLRenderer()
+      const geometry = new THREE.CircleGeometry(25, 20),
+        mesh = new THREE.Mesh(geometry, material)
+
+      mesh.position.x = imgObj.x ? imgObj.x : Math.cos(angel * (Math.PI / 180)) * imgObj.cord
+      mesh.position.y = imgObj.y ? imgObj.y : Math.sin(angel * (Math.PI / 180)) * imgObj.cord
+      mesh.position.z = 75
+
+      mesh.name = 'image'
+
+      pointsEndImages.add(mesh)
+      scene.add(mesh)
+    })
+
+    // const canvas = document.createElement("canvas")
+
+    // canvas.width = 50
+    // canvas.height = 50
+
+    // const ctx = canvas.getContext("2d")
+
+    // ctx.beginPath();
+    // // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+    // ctx.arc(canvas.width / 2, canvas.height / 2, 30, 0, Math.PI * 2)
+    // ctx.closePath()
+    // ctx.fillStyle = '#fff'
+    // // ctx.fillRect(0, 0, w, h)
+
+    // ctx.lineWidth = 1
+    // ctx.strokeStyle = '#9FE5E5'
+    // ctx.stroke()
+    // const img = new Image()
+    // img.src = imgObj.url
+
+//     img.onload = function() {
+//       // ctx.drawImage(img, this.x - img.width / 2, this.y - img.height / 2, this.img.h, this.img.w);
+//       ctx.drawImage(img, (canvas.width - imgObj.w) / 2, (canvas.height - imgObj.h) / 2, imgObj.h, imgObj.w)
+    
+//       var texture = new THREE.Texture(canvas)
+//       texture.needsUpdate = true
+//       texture.magFilter = THREE.NearestFilter
+// console.log(THREE.NearestFilter)
+//       // var geometry = new THREE.SphereGeometry(30, 20, 20, 0, Math.PI * 2, 0, Math.PI * 2)
+//       var geometry = new THREE.CircleGeometry(30, 20)
+//       var material = new THREE.MeshBasicMaterial({ map: texture })
+//       material.map.minFilter = THREE.NearestFilter
+
+//       const mesh = new THREE.Mesh(geometry, material)
+//       mesh.position.x = imgObj.x ? imgObj.x : Math.cos(angel * (Math.PI / 180)) * imgObj.cord
+//       mesh.position.y = imgObj.y ? imgObj.y : Math.sin(angel * (Math.PI / 180)) * imgObj.cord
+//       mesh.position.z = 0
+
+//       // console.log(mesh.position)
+//       pointsEndImages.add(new THREE.Line(geometry, material))
+
+//       scene.add(mesh)
+//     }
+  };
+
   renderer.setSize(w, h)
   renderer.setClearColor(prop.bgColor, 1)
 
-  var scene = new THREE.Scene()
-  wrap.addEventListener('mousemove', onMouseMove, false)
-  var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000),
+  let scene = new THREE.Scene(),
+    camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000),
     mouseX,
-    mouseY;
+    mouseY
+
   wrap.appendChild(renderer.domElement)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   // window.addEventListener("resize", function() {
   //   camera.aspect = window.innerWidth / window.innerHeight;
   //   camera.updateProjectionMatrix()
   //   renderer.setSize( window.innerWidth, window.innerHeight )
   // })
 
-  // ----------------------- poinys
-  const renderingParent = new THREE.Group(),
-    sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20),
-    sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00dede }),
+  // ----------------------- particles
+  const sphereGeometry = new THREE.SphereGeometry(prop.particleRadius, 20, 20),
+    sphereMaterial = new THREE.MeshBasicMaterial({ color: prop.particleColor }),
     sphereThree = []
 
-  for (var i = 0; i < prop.particleCount; i++) {
+  for (let i = 0; i < prop.particleCount; i++) {
     sphereThree[i] = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
-    var theta = THREE.Math.randFloatSpread(360)
-    var phi = THREE.Math.randFloatSpread(360)
+    let theta = THREE.Math.randFloatSpread(360)
+    let phi = THREE.Math.randFloatSpread(360)
 
     sphereThree[i].position.x = prop.bigRadius * Math.sin(theta) * Math.cos(phi)
     sphereThree[i].position.y = prop.bigRadius * Math.sin(theta) * Math.sin(phi)
     sphereThree[i].position.z = prop.bigRadius * Math.cos(theta)
     sphereThree[i].lines = 0
 
-    renderingParent.add(sphereThree[i])
+    // pointsEndImages.add(sphereThree[i])
+    pointsEndLines.add(sphereThree[i])
   }
+
+  // ----------------------- radiusImages
+  radiusImages.forEach((image, i) => {
+    const angel = (360 / radiusImages.length) * i
+      // console.log(angel)
+    addImage(angel, image)
+  })
+console.log(pointsEndImages.children)
   // ----------------------- lines
   const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
   let lines = {}
-  renderingParent.children.forEach(pointA => {
-    renderingParent.children.forEach(pointB => {
+  pointsEndImages.children.forEach(pointA => {
+    pointsEndImages.children.forEach(pointB => {
       if (!lines[pointB.uuid] || lines[pointB.uuid] <= prop.maxLinesCount) {
         const dx = pointA.position.x - pointB.position.x,
           dy = pointA.position.y - pointB.position.y,
           dz = pointA.position.z - pointB.position.z,
           distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
 
+  // console.log(pointA, distance)
         if (distance <= prop.lineLingth && distance != 0) {
           const points = [];
           points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z))
           points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z))
 
           const Lgeometry = new THREE.BufferGeometry().setFromPoints(points)
-          renderingParent.add(new THREE.Line(Lgeometry, Lmaterial))
+          pointsEndLines.add(new THREE.Line(Lgeometry, Lmaterial))
           lines[pointB.uuid] = lines[pointB.uuid] ? lines[pointB.uuid] + 1 : 1
         }
       }
     })
   })
 
-  var resizeContainer = new THREE.Group()
-  resizeContainer.add(renderingParent)
-  scene.add(resizeContainer)
+  let mouseContainer = new THREE.Group()
+  mouseContainer.add(pointsEndLines)
+  scene.add(mouseContainer)
 
   camera.position.z = 400;
 
-  var animate = function () {
+  let animate = _ => {
     requestAnimationFrame(animate)
     renderer.render(scene, camera)
-  };
-
-
-  var myTween;
-  function onMouseMove(event) {
-    if (myTween)
-      myTween.kill()
-
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
-    myTween = gsap.to(renderingParent.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX })
-    //particles.rotation.x = mouseY*-1;
-    //particles.rotation.y = mouseX;
   }
   animate()
 
+  let myTween;
+  function onMouseMove(event) {
+    if (myTween) myTween.kill()
+
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
+    myTween = gsap.to(mouseContainer.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX })
+    //particles.rotation.x = mouseY*-1;
+    //particles.rotation.y = mouseX;
+  }
+  wrap.addEventListener('mousemove', onMouseMove, false)
+
   // Scaling animation
-  var animProps = { scale: 1, xRot: 0, yRot: 0 };
+  let animProps = { scale: 1, xRot: 0, yRot: 0 };
   // gsap.to(animProps, {duration: 10, scale: 1.3, repeat: -1, yoyo: true, ease: "sine", onUpdate: function() {
-  //   renderingParent.scale.set(animProps.scale,animProps.scale,animProps.scale)
+  //   pointsEndLines.scale.set(animProps.scale,animProps.scale,animProps.scale)
   // }})
 
   gsap.to(
@@ -1629,13 +1689,10 @@ class coreMap {
     yoyo: true,
     ease: "none",
     onUpdate: function () {
-      resizeContainer.rotation.set(animProps.xRot, animProps.yRot, 0)
-
-      // renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0)
+      pointsEndLines.rotation.set(animProps.xRot, animProps.yRot, 0)
     }
-  }
-  )
-})()
+  })
+})();
 
 const breakpoints = {
   'xlll': 1750,
