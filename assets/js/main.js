@@ -1496,16 +1496,16 @@ class coreMap {
     particleRadius: 2,
     particleCount: 350,
     lineLingth: 100,
-    bigRadius: 200,
+    bigRadius: 190,
     maxLinesCount: 2
   },
   radiusImages = [
-    { url: '/assets/img/circle_images/image_3.png', h: 30, w: 30, cord: prop.bigRadius+20},
-    { url: '/assets/img/circle_images/image_2.png', h: 30, w: 30, cord: prop.bigRadius+20},
-    { url: '/assets/img/circle_images/image_1.png', h: 30, w: 30, cord: prop.bigRadius+20},
-    { url: '/assets/img/circle_images/image_6.png', h: 30, w: 30, cord: prop.bigRadius+20},
-    { url: '/assets/img/circle_images/image_5.png', h: 30, w: 30, cord: prop.bigRadius+20},
-    { url: '/assets/img/circle_images/image_4.png', h: 30, w: 30, cord: prop.bigRadius+20},
+    { url: '/assets/img/circle_images/image_3.png', h: 30, w: 30, cord: prop.bigRadius+30},
+    { url: '/assets/img/circle_images/image_2.png', h: 30, w: 30, cord: prop.bigRadius+30},
+    { url: '/assets/img/circle_images/image_1.png', h: 30, w: 30, cord: prop.bigRadius+30},
+    { url: '/assets/img/circle_images/image_6.png', h: 30, w: 30, cord: prop.bigRadius+30},
+    { url: '/assets/img/circle_images/image_5.png', h: 30, w: 30, cord: prop.bigRadius+30},
+    { url: '/assets/img/circle_images/image_4.png', h: 30, w: 30, cord: prop.bigRadius+30},
   ],
   radiusImagesArr = [],
   customImages = [
@@ -1516,70 +1516,25 @@ class coreMap {
   renderer = new THREE.WebGLRenderer(),
   pointsEndLines = new THREE.Group(),
   pointsEndImages = new THREE.Group(),
-  loader = new THREE.TextureLoader(),
   addImage = (angel, imgObj) => {
-    loader.load(imgObj.url, (texture) => {
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-      })
-      material.map.minFilter = THREE.NearestFilter
+    const texture = new THREE.TextureLoader().load(imgObj.url),
+      material = new THREE.MeshBasicMaterial({ map: texture }),
+      geometry = new THREE.CircleGeometry(25, 20)
 
-      const geometry = new THREE.CircleGeometry(25, 20),
-        mesh = new THREE.Mesh(geometry, material)
+    material.map.minFilter = THREE.NearestFilter
 
-      mesh.position.x = imgObj.x ? imgObj.x : Math.cos(angel * (Math.PI / 180)) * imgObj.cord
-      mesh.position.y = imgObj.y ? imgObj.y : Math.sin(angel * (Math.PI / 180)) * imgObj.cord
-      mesh.position.z = 75
+    const image = new THREE.Mesh(geometry, material)
 
-      mesh.name = 'image'
+    image.position.set(
+      imgObj.x ? imgObj.x : Math.cos(angel * (Math.PI / 180)) * imgObj.cord, //x
+      imgObj.y ? imgObj.y : Math.sin(angel * (Math.PI / 180)) * imgObj.cord, //y
+      75 //z
+    )
 
-      pointsEndImages.add(mesh)
-      scene.add(mesh)
-    })
+    image.name = 'image'
 
-    // const canvas = document.createElement("canvas")
-
-    // canvas.width = 50
-    // canvas.height = 50
-
-    // const ctx = canvas.getContext("2d")
-
-    // ctx.beginPath();
-    // // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
-    // ctx.arc(canvas.width / 2, canvas.height / 2, 30, 0, Math.PI * 2)
-    // ctx.closePath()
-    // ctx.fillStyle = '#fff'
-    // // ctx.fillRect(0, 0, w, h)
-
-    // ctx.lineWidth = 1
-    // ctx.strokeStyle = '#9FE5E5'
-    // ctx.stroke()
-    // const img = new Image()
-    // img.src = imgObj.url
-
-//     img.onload = function() {
-//       // ctx.drawImage(img, this.x - img.width / 2, this.y - img.height / 2, this.img.h, this.img.w);
-//       ctx.drawImage(img, (canvas.width - imgObj.w) / 2, (canvas.height - imgObj.h) / 2, imgObj.h, imgObj.w)
-    
-//       var texture = new THREE.Texture(canvas)
-//       texture.needsUpdate = true
-//       texture.magFilter = THREE.NearestFilter
-// console.log(THREE.NearestFilter)
-//       // var geometry = new THREE.SphereGeometry(30, 20, 20, 0, Math.PI * 2, 0, Math.PI * 2)
-//       var geometry = new THREE.CircleGeometry(30, 20)
-//       var material = new THREE.MeshBasicMaterial({ map: texture })
-//       material.map.minFilter = THREE.NearestFilter
-
-//       const mesh = new THREE.Mesh(geometry, material)
-//       mesh.position.x = imgObj.x ? imgObj.x : Math.cos(angel * (Math.PI / 180)) * imgObj.cord
-//       mesh.position.y = imgObj.y ? imgObj.y : Math.sin(angel * (Math.PI / 180)) * imgObj.cord
-//       mesh.position.z = 0
-
-//       // console.log(mesh.position)
-//       pointsEndImages.add(new THREE.Line(geometry, material))
-
-//       scene.add(mesh)
-//     }
+    pointsEndImages.add(image)
+    // scene.add(image)
   };
 
   renderer.setSize(w, h)
@@ -1589,6 +1544,8 @@ class coreMap {
     camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000),
     mouseX,
     mouseY
+
+  scene.add(pointsEndImages)
 
   wrap.appendChild(renderer.domElement)
 
@@ -1624,7 +1581,8 @@ class coreMap {
       // console.log(angel)
     addImage(angel, image)
   })
-console.log(pointsEndImages.children)
+  console.log(pointsEndImages.children)
+  
   // ----------------------- lines
   const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
   let lines = {}
@@ -1690,6 +1648,32 @@ console.log(pointsEndImages.children)
     ease: "none",
     onUpdate: function () {
       pointsEndLines.rotation.set(animProps.xRot, animProps.yRot, 0)
+
+      pointsEndImages.children.forEach(pointA => {
+        pointsEndImages.children.forEach(pointB => {
+          
+          if (pointB.name === 'image') {
+            const dx = pointA.position.x - pointB.position.x,
+              dy = pointA.position.y - pointB.position.y,
+              dz = pointA.position.z - pointB.position.z,
+              distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
+              
+              // console.log(distance,  prop.lineLingth , '->', distance <= prop.lineLingth)
+            if ((distance - 100) <= prop.lineLingth && distance != 0) {
+              const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
+              const points = [];
+              points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z))
+              points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z))
+    
+              const Lgeometry = new THREE.BufferGeometry().setFromPoints(points)
+                line = new THREE.Line(Lgeometry, Lmaterial)
+                
+              // console.log(line)
+              scene.add(line)
+            }
+          }
+        })
+      })      
     }
   })
 })();
