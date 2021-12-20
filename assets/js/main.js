@@ -1514,8 +1514,12 @@ class coreMap {
     { url: '/assets/img/circle_images/cloud.png', h: 120, w: 120, x: 170, y: 330, custom: true }
   ],
   renderer = new THREE.WebGLRenderer(),
+
   pointsEndLines = new THREE.Group(),
   pointsEndImages = new THREE.Group(),
+  points = new THREE.Group(),
+  images = new THREE.Group(),
+
   addImage = (angel, imgObj) => {
     const texture = new THREE.TextureLoader().load(imgObj.url),
       material = new THREE.MeshBasicMaterial({ map: texture }),
@@ -1533,7 +1537,7 @@ class coreMap {
 
     image.name = 'image'
 
-    pointsEndImages.add(image)
+    images.add(image)
     // scene.add(image)
   };
 
@@ -1545,7 +1549,7 @@ class coreMap {
     mouseX,
     mouseY
 
-  scene.add(pointsEndImages)
+  scene.add(images)
 
   wrap.appendChild(renderer.domElement)
 
@@ -1571,8 +1575,8 @@ class coreMap {
     sphereThree[i].position.z = prop.bigRadius * Math.cos(theta)
     sphereThree[i].lines = 0
 
-    // pointsEndImages.add(sphereThree[i])
-    pointsEndLines.add(sphereThree[i])
+    points.add(sphereThree[i])
+    // pointsEndLines.add(sphereThree[i])
   }
 
   // ----------------------- radiusImages
@@ -1581,13 +1585,13 @@ class coreMap {
       // console.log(angel)
     addImage(angel, image)
   })
-  console.log(pointsEndImages.children)
+  console.log(points.children)
   
   // ----------------------- lines
   const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
   let lines = {}
-  pointsEndImages.children.forEach(pointA => {
-    pointsEndImages.children.forEach(pointB => {
+  points.children.forEach(pointA => {
+    points.children.forEach(pointB => {
       if (!lines[pointB.uuid] || lines[pointB.uuid] <= prop.maxLinesCount) {
         const dx = pointA.position.x - pointB.position.x,
           dy = pointA.position.y - pointB.position.y,
@@ -1609,6 +1613,7 @@ class coreMap {
   })
 
   let mouseContainer = new THREE.Group()
+  pointsEndLines.add(points)
   mouseContainer.add(pointsEndLines)
   scene.add(mouseContainer)
 
@@ -1616,6 +1621,37 @@ class coreMap {
 
   let animate = _ => {
     requestAnimationFrame(animate)
+
+
+
+    
+    images.children.forEach(pointA => {
+      points.children.forEach(pointB => {
+        
+        // if (pointB.name === 'image') {
+          const dx = pointA.position.x - pointB.position.x,
+            dy = pointA.position.y - pointB.position.y,
+            dz = pointA.position.z - pointB.position.z,
+            distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
+            
+            // console.log(distance,  prop.lineLingth , '->', distance <= prop.lineLingth)
+          // if (distance <= prop.lineLingth && distance != 0) {
+          //   const Lmaterial = new THREE.LineBasicMaterial({ color: 0x0757B3 })
+          //   const points = [];
+          //   points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z))
+          //   points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z))
+  
+          //   const Lgeometry = new THREE.BufferGeometry().setFromPoints(points)
+          //     line = new THREE.Line(Lgeometry, Lmaterial)
+              
+          //   scene.add(line)
+          // }
+        // }
+      })
+    })  
+
+
+
     renderer.render(scene, camera)
   }
   animate()
@@ -1626,7 +1662,14 @@ class coreMap {
 
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
-    myTween = gsap.to(mouseContainer.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX })
+    
+    myTween = gsap.to(
+      mouseContainer.rotation, {
+        duration: 0.1,
+        x: mouseY * -1,
+        y: mouseX,
+        onUpdate: function () {}
+      })
     //particles.rotation.x = mouseY*-1;
     //particles.rotation.y = mouseX;
   }
@@ -1637,7 +1680,6 @@ class coreMap {
   // gsap.to(animProps, {duration: 10, scale: 1.3, repeat: -1, yoyo: true, ease: "sine", onUpdate: function() {
   //   pointsEndLines.scale.set(animProps.scale,animProps.scale,animProps.scale)
   // }})
-
   gsap.to(
     animProps, {
     duration: 120,
@@ -1647,33 +1689,7 @@ class coreMap {
     yoyo: true,
     ease: "none",
     onUpdate: function () {
-      pointsEndLines.rotation.set(animProps.xRot, animProps.yRot, 0)
-
-      pointsEndImages.children.forEach(pointA => {
-        pointsEndImages.children.forEach(pointB => {
-          
-          if (pointB.name === 'image') {
-            const dx = pointA.position.x - pointB.position.x,
-              dy = pointA.position.y - pointB.position.y,
-              dz = pointA.position.z - pointB.position.z,
-              distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
-              
-              // console.log(distance,  prop.lineLingth , '->', distance <= prop.lineLingth)
-            if ((distance - 100) <= prop.lineLingth && distance != 0) {
-              const Lmaterial = new THREE.LineBasicMaterial({ color: 0xadffff })
-              const points = [];
-              points.push(new THREE.Vector3(pointA.position.x, pointA.position.y, pointA.position.z))
-              points.push(new THREE.Vector3(pointB.position.x, pointB.position.y, pointB.position.z))
-    
-              const Lgeometry = new THREE.BufferGeometry().setFromPoints(points)
-                line = new THREE.Line(Lgeometry, Lmaterial)
-                
-              // console.log(line)
-              scene.add(line)
-            }
-          }
-        })
-      })      
+      pointsEndLines.rotation.set(animProps.xRot, animProps.yRot, 0)    
     }
   })
 })();
