@@ -1757,7 +1757,9 @@ function testEvent(elem, event, fun) {
 
 const swiper = new Swiper('.swiper-container', {
   speed: 400,
-  spaceBetween: 10,
+  slidesPerView: 'auto',
+  spaceBetween: 30,
+  loop: true,
   navigation: {
     nextEl: ".swiper-button-next",
     prevEl: ".swiper-button-prev",
