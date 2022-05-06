@@ -32,7 +32,7 @@
   </div>
 
   <div class="container">
-		<div class="js-custom-slider" data-cs="custom" data-cs-set="{slidesPerView:2,spaceBetween:10,}">
+		<div class="js-custom-slider" data-cs="custom" data-cs-set>
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">Slide 1</div>
 				<div class="swiper-slide">Slide 2</div>
@@ -40,7 +40,12 @@
 			</div>
 		</div>
 
-		<div class="js-custom-slider" data-cs="custom2" data-cs-set>
+		<div class="swiper-pagination" data-cs-pagination="custom"></div>
+		<div class="swiper-button-prev" data-cs-prev="custom"></div>
+		<div class="swiper-button-next" data-cs-next="custom"></div>
+		<div class="swiper-scrollbar" data-cs-scrollbar="custom"></div>
+
+		<div class="js-custom-slider" data-cs="custom2" data-cs-set="spaceBetween:10,spaceslidesPerView:3,loop:true,thumbs:{swiper:custom}">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">Slide 1</div>
 				<div class="swiper-slide">Slide 2</div>
