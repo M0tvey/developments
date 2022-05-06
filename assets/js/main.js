@@ -1693,6 +1693,116 @@ class coreMap {
     }
   })
 })();
+(_=>{
+	const $sliders = $('.js-custom-slider');
+
+	if (!$sliders.length) return false;
+
+	$.each($sliders, function(){
+		var slider = $(this),
+			sliderId = slider.data('slider'),
+			sliderSettings = {
+				slidesPerView: slider.data('items-count') || 1,
+				spaceBetween: slider.data('space-between') || 0,
+				loop: slider.data('loop') || false,
+			},
+			sliderInit = settings => {
+				if (slider.data('slider-interaction') !== undefined) {
+					var secondSlider = $('[data-slider='+ slider.data('slider-interaction') +']'),
+						thisSwiper = new Swiper(slider[0], settings),
+						secondSwiper = new Swiper(secondSlider[0], {
+							...settings,
+							thumbs: {
+								swiper: thisSwiper
+							}
+						});
+
+					window.swipers[secondSlider.data('slider')] = secondSwiper;
+					window.swipers[sliderId] = thisSwiper;
+				} else {
+					if (window.swipers[sliderId]) {
+						window.swipers[sliderId].update(settings);
+					} else {
+						setTimeout(_=>{
+							var thisSwiper = new Swiper(slider[0], settings);
+							window.swipers[sliderId] = thisSwiper;
+						},100)
+					} 
+				}
+			},
+			sliderActive = _=> {
+				const slSW = slider[0].swiper;
+				if (slider.data('slider-active') != undefined) {
+					if (innerWidth <= breakpoints[slider.data('slider-active')]) {
+						if (!slSW) sliderInit(sliderSettings)
+					} else {
+
+						if (slSW) {
+							slSW.destroy()
+							slider[0].swiper = undefined;
+						}
+
+						// slider.find('.swiper-wrapper').removeAttr('style')
+						// slider.find('.swiper-slide').removeAttr('style')
+					}
+				} else {
+					if (!slSW) sliderInit(sliderSettings)
+				}
+			};
+
+		if (slider.data('[data-mousewheel]') !== undefined) sliderSettings.mousewheel = true;
+
+		if ($(`[data-paginate=${ sliderId }]`).length) {
+			var sliderPagination = {
+				el: `[data-paginate=${ sliderId }]`,
+				clickable: true
+			}
+
+			slider.addClass('paginate');
+			sliderSettings.pagination = sliderPagination;
+		}
+
+		if ($(`[data-slider-next=${ sliderId }], [data-slider-prev=${ sliderId }]`).length) {
+			
+			sliderSettings.navigation = {
+				nextEl: `[data-slider-next=${ sliderId }]`,
+				prevEl: `[data-slider-prev=${ sliderId }]`,
+			};
+		}
+
+		if (slider.data('slider-autoplay') !== undefined) {
+			sliderSettings.autoplay = {
+				delay: slider.data('slider-autoplay') || 3000,
+			}
+		}
+
+		if (slider.data('slider-breakpoints') !== undefined) {
+			var sliderRes = slider.data('slider-breakpoints').split(','),
+					sliderbreakbreak = {};
+
+			$.each(sliderRes, function(i, a){
+				var sliderResI = a.split(':'),
+					sliderWidth = parseInt(sliderResI[0]),
+					sliderbreakKey = sliderResI[1],
+					sliderbreakVal = sliderResI[2]
+					sliderbreakSet = {};
+
+				sliderbreakSet[sliderbreakKey] = sliderbreakVal;
+				sliderbreakbreak[sliderWidth] = sliderbreakSet;
+				sliderSettings.breakpoints = sliderbreakbreak;
+			});
+		}
+
+		if (slider.data('slider-direction') !== undefined) sliderSettings.direction = slider.data('slider-direction');
+
+		if (slider.data('column') !== undefined) sliderSettings.slidesPerColumn = slider.data('column');
+
+		$(window).on('resize', _=> {
+			sliderActive();
+		})
+		sliderActive();
+	});
+})();
 
 const breakpoints = {
   'xlll': 1750,
