@@ -1693,76 +1693,67 @@ class coreMap {
     }
   })
 })();
+// не давать слайдеру id в котором есть цифры
+
 document.addEventListener('DOMContentLoaded', _ => {
 	const sliders = document.querySelectorAll('.js-custom-slider');
 	if (!sliders.length) return false;
+
+	const settingsClosure = (str, obj) => {
+			if (!str || str == '') return {};
+			const setArr = str.split(/,(?![^{}]*})/)
+			
+			for(let i=0; i<setArr.length; i++) {
+				const set = setArr[i].split(/:(.*)/)
+
+				if (!!setArr[i] && !!set[0] && !!set[1]) {
+					if (set[1].indexOf(`{`) != -1) {
+						obj[set[0]] = {}
+						settingsClosure(set[1].replace(/^.|.$/g,''), obj[set[0]])
+					} else {
+						let val = set[1] == 'true' ? true : set[1]
+						val = val == 'false' ? false : val
+						val = /[0-9]/.test(val) ? +val : val
+
+						obj[set[0]] = val
+					}
+				}
+			}
+
+			return obj
+		}, settingsSlider = el => {
+				sliderSetStr = el.dataset.csSet || false;
+			let = sliderSet = settingsClosure(sliderSetStr, {})
+			
+			if (sliderSet.thumbs) {
+				const slider = document.querySelector(`[data-cs=${sliderSet.thumbs.swiper}]`)
+
+				if (slider) {
+					sliderSet.thumbs.swiper = window.swipers[sliderSet.thumbs.swiper]
+					sliderInit(slider, settingsSlider(slider))
+				}
+			}
+console.log(sliderSet)
+			return sliderSet;
+		},
+		sliderInit = (el, set) => {
+			el.classList.add('swiper')
+			const	slidId = el.dataset.cs,
+
+			swiperslider = new Swiper(el, set)
+			window.swipers[slidId] = swiperslider
+
+			return false;
+		}
 
 	window.swipers = {}
 
 	sliders.forEach(slider => {
 		if (!slider.dataset.cs) return;
+		const slidId = slider.dataset.cs
+		if (window.swipers[slidId]) return;
 
-		slider.classList.add('swiper')
-
-		const slidId = slider.dataset.cs,
-			sliderSetStr = slider.dataset.csSet || false,
-			setClosure = (str, obj) => {
-				if (!str || str == '') return {};
-				const setArr = str.split(/,(?![^{}]*})/)
-				
-				for(let i=0; i<setArr.length; i++) {
-					const set = setArr[i].split(/:(.*)/)
-
-					if (!!setArr[i] && !!set[0] && !!set[1]) {
-						if (set[1].indexOf(`{`) != -1) {
-							obj[set[0]] = {}
-							setClosure(set[1].replace(/^.|.$/g,''), obj[set[0]])
-						} else {
-							obj[set[0]] = set[1]
-						}
-					}
-				}
-
-				return obj
-			}
-
-		let = sliderSet = setClosure(sliderSetStr, {})
-
-		const sliderThums = settings => {
-			settings.thumbs.swiper = window.swipers[settings.thumbs.swiper]
-		}
-
-		if (sliderSet.thumbs) sliderThums(sliderSet)
-
-		swiperslider = new Swiper(slider, sliderSet)
-		window.swipers[slidId] = swiperslider
-		console.log(sliderSet)
-
-		// const sliderInit = settings => {
-		// 		if (slider.data('slider-interaction') !== undefined) {
-		// 			var secondSlider = $('[data-slider='+ slider.data('slider-interaction') +']'),
-		// 				thisSwiper = new Swiper(slider[0], settings),
-		// 				secondSwiper = new Swiper(secondSlider[0], {
-		// 					...settings,
-		// 					thumbs: {
-		// 						swiper: thisSwiper
-		// 					}
-		// 				});
-
-		// 			window.swipers[secondSlider.data('slider')] = secondSwiper;
-		// 			window.swipers[slidId] = thisSwiper;
-		// 		} else {
-		// 			if (window.swipers[slidId]) {
-		// 				window.swipers[slidId].update(settings);
-		// 			} else {
-		// 				setTimeout(_=>{
-		// 					var thisSwiper = new Swiper(slider[0], settings);
-		// 					window.swipers[slidId] = thisSwiper;
-		// 				},100)
-		// 			} 
-		// 		}
-		// 	},
-		
+		sliderInit(slider, settingsSlider(slider))
 	})
 
 	// $.each($sliders, function(){
