@@ -29,7 +29,7 @@ var gulp = require('gulp'),
   del = require('del'),
   highlight = require('gulp-highlight'),
   reload = browserSync.reload,
-  // ghPages = require('gulp-gh-pages'),
+  ghPages = require('gulp-gh-pages'),
   isDebug = true;
 // isDebug = process.env.NODE_ENV !== 'production';
 
@@ -173,10 +173,10 @@ gulp.task('root:build', function (done) {
   done();
 });
 
-// gulp.task('deploy', function() {
-//   return gulp.src('./build/**/*')
-//     .pipe(ghPages());
-// });
+gulp.task('deploy', function() {
+  return gulp.src('./build/**/*')
+    .pipe(ghPages());
+});
 gulp.task('build', gulp.series([
   'clean',
   'html:build',
