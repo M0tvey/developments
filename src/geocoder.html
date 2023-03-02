@@ -1,0 +1,61 @@
+//= templates/header-inner.html
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=667bba2f-325a-4864-a901-6efaed21dfb3&lang=ru_RU" type="text/javascript"></script>
+</header>
+
+<body>
+<div class="wrap">
+    //= templates/blocks/mmenu-header.html
+
+    <main class="main">
+      <div class="container">
+        <div class="table__block">
+          <p class="table__text">Сгенерировать json файл можно <a href="https://csvjson.com/csv2json" target="_blank">тут</a>
+          </p>
+
+          <form action class="table__form form js_json_table">
+            <div class="form__body-input form__body--file form-margin form-pr">
+              <input class="hidden-input js-file-input" id="file" type="file" accept=".json" data-label="Загрузить json файл" name="file" data-parsley-file-formats="json" required>
+              <label class="input-file" for="file">Загрузить json файл</label>
+            </div>
+
+            <div class="form__body-input form__body--file form-margin form-pr">
+              <button type="submit" class="form__bttn bttn bttn_1">Создать таблицу</button>
+              <p class="table__text">
+                <q>Прогрес можно посмотреть в консоли</q>
+              </p>
+            </div>
+          </form>
+
+          <div class="table__after js_after_table">
+            <p class="table__text">Сейчас подключен этот ключ - <span class="js_apikey"></span></p>
+
+            <div class="form__body-input form__body--file form-margin form-pr">
+              <button class="form__bttn bttn bttn_1 js_insert_coordinates">Проставить координаты</button>
+            </div>
+
+            <div class="form__body-input form__bttn_copy_wrap form__body--file form-margin form-pr">
+              <button class="form__bttn form__bttn_copy bttn bttn_1 js_copy_table">Копировать таблицу</button>
+            </div>
+          </div>
+
+          <div class="table__wrap js_custom_scroll">
+            <table id="geocodeTable" class="table__el table"></table>
+          </div>
+
+          <div class="table__progress_wrap js_progress_wrap">
+            <div class="table__progress_block">
+              <progress class="table__progress js_progress" max="0" value="0"></progress>
+              <p class="table__progress_text">
+                <span class="js_progress_val"></span> - <span class="js_progress_to"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="map" class="map"/>
+      </div>
+    </main>
+  </div>
+
+//= templates/blocks/mmenu-footer.html
+  //= templates/footer.html

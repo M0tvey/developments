@@ -1,0 +1,171 @@
+.table {
+	width: 100%;
+
+	&__text {
+		font: 500 20px/120% $font_1;
+		margin: 0 0 20px;
+		text-align: center;
+
+		a {
+			color: $color_2;
+		}
+
+		span {
+			color: darken($color: $color_2, $amount: 10);
+		}
+
+		q {
+			font-size: 12px;
+
+			&::before,
+			&::after {
+				display: none;
+			}
+		}
+	}
+
+	td {
+		border: solid 1px rgba(#000, .2);
+		padding: 5px;
+		font-size: 12px;
+		// white-space: normal;
+	}
+
+	&__block {
+		background-color: rgba(#fff, .5);
+		padding: 20px;
+		border-radius: 8px;
+
+		.form {
+			&-margin:has(.form__bttn) {
+				margin-top: 32px;
+			}
+
+			&__bttn {
+				display: block;
+				overflow: hidden;
+				margin-top: 0;
+
+				&_copy {
+					background-color: #3e9d47;
+					
+					&_wrap {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	&__wrap {
+		max-height: 600px;
+		overflow: auto;
+		margin-top: 20px;
+	}
+
+	&__el {
+		border-collapse: collapse;
+	}
+
+	&__form {
+		padding: 0;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	&__after {
+		margin-top: 50px;
+		display: none;
+	}
+
+	&__progress {
+		width: 100%;
+		
+		&_wrap {
+			display: none;
+		}
+		
+		&_block {
+			margin-top: 20px;
+			display: grid;
+			grid-template-columns: 1fr auto;
+			column-gap: 30px;
+			align-items: center;
+		}
+
+		&_text {
+			font-size: 12px;
+		}
+	}
+}
+
+.preloader {
+	position: absolute;
+	inset: 50% auto auto 50%;
+	transform: translate(-50%, -50%);
+	@include size(130px);
+
+	&_wrap {
+		background-color: rgba(#000, .15);
+		position: fixed;
+		opacity: 0;
+		inset: 0;
+		z-index: 1000;
+	}
+}
+
+.mCSB_scrollTools .mCSB_dragger {
+	.mCSB_dragger_bar {
+		background-color: $color_2;
+	}
+
+	&.mCSB_dragger_onDrag .mCSB_dragger_bar,
+	&:active .mCSB_dragger_bar,
+	&:hover .mCSB_dragger_bar {
+		background-color: lighten($color: $color_2, $amount: 30);
+	}
+}
+
+.map {
+	height: 380px;
+	margin-top: 33px;
+
+	&__adres {
+		position: absolute;
+		background: #fff;
+		box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.12);
+		border-radius: 8px;
+		padding: 8px 28px 8px 22px;
+		font-size: 14px;
+		line-height: 180%;
+		white-space: nowrap;
+		inset: -60px auto auto 35px;
+		@include screen("md", "min") {
+			font-size: 18px;
+
+			br {
+				display: none;
+			}
+		}
+
+		&::before {
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 12px;
+			line-height: 0;
+			transform: translateY(-1px);
+		}
+	}
+
+	// [class*=ground-pane] {
+	// 	filter: grayscale(1);
+	// }
+
+	[class*=copyrights-pane] {
+		display: none;
+	}
+
+	& + .form__wrap {
+		padding-top: 0;
+	}
+}

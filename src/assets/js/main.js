@@ -264,6 +264,7 @@ $(document).ready(function () {
     customHtmlIcon: {
       isCustom: true
     },
+		showBalloon: true,
     useInfo: false,
     // changeIconImageOnClick: {
     //   changeIcon: false

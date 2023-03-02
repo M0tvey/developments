@@ -73,8 +73,8 @@ class coreMap {
       dataLinkOpenClaster: settings.dataLinkOpenClaster == null ? false : settings.dataLinkOpenClaster, // Показывать ссылку раскрывающую кластер
       // dataBlockTemplate: settings.changeIconImageOnClick?.imageHref || '<div class="">',
       events: {
-        beforeDataShow: coreMapData => { settings.events.beforeDataShow ? settings.events.beforeDataShow(coreMapData) : null },
-        mapReady: _=> { settings.events.mapReady ? settings.events?.mapReady() : null }
+        beforeDataShow: coreMapData => { settings.events?.beforeDataShow ? settings.events.beforeDataShow(coreMapData) : null },
+        mapReady: _=> { settings.events?.mapReady ? settings.events?.mapReady() : null }
       },
     };
 

@@ -22,8 +22,50 @@ $xlDown: 1889.98px;
 // Пример @media (min-width: $md) {}
 
 $font-main: Arial, sans-serif;
+$font_1: $font-main;
 $bg_color: #2d2d2d;
 $color_1: #ccc;
+
+$color_1: #2F2F2F;
+$color_2: #FF292A;
+
+$max_width: 1340px;
+
+$breakpoints: (
+  'xlll': 1750px,
+  'xll': 1400px,
+  'xxl': 1280px,
+  'xl': 1200px,
+  'lg': 992px,
+  'mdd': 900px,
+  'md': 768px,
+  'sm': 576px,
+  'xxs': 500px,
+  'xss': 400px,
+  'xs': 320px
+);
+
+@mixin size($height, $width: "") {
+  @if $width == "" { $width: $height }
+  height: $height;
+  width: $width;
+}
+
+@mixin transition($property: '', $time: 0.2, $timing-function: ease-in-out) {
+  @if $property == '' {
+		$property: all;
+		transition: $property #{$time}s $timing-function;
+	} @else {
+		$prop: '';
+		@for $i from 1 through length($property) {
+			$prop: #{$prop} nth($property, $i); 
+		}
+
+		transition-property: #{$prop};
+		transition-duration: #{$time}s;
+		transition-timing-function: #{$timing-function};
+	}
+}
 
 @mixin small_code {
   pre {

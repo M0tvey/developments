@@ -29,7 +29,7 @@ var gulp = require('gulp'),
   del = require('del'),
   highlight = require('gulp-highlight'),
   reload = browserSync.reload,
-  ghPages = require('gulp-gh-pages'),
+  // ghPages = require('gulp-gh-pages'),
   isDebug = true;
 // isDebug = process.env.NODE_ENV !== 'production';
 
@@ -67,6 +67,7 @@ var path = {
       'src/assets/js/particle.js',
       'src/assets/js/particle_circle.js',
       'src/assets/js/particle_circle_webgl.js',
+      'src/assets/js/geocoder.js',
       
       'src/assets/js/main.js'
     ],
@@ -101,7 +102,7 @@ var config = {
   },
   // tunnel: true,
   host: 'localhost',
-  port: 9005,
+  port: 9030,
   logPrefix: "Frontend_Devil",
   middleware: [postSupport]
 };
@@ -172,10 +173,10 @@ gulp.task('root:build', function (done) {
   done();
 });
 
-gulp.task('deploy', function() {
-  return gulp.src('./build/**/*')
-    .pipe(ghPages());
-});
+// gulp.task('deploy', function() {
+//   return gulp.src('./build/**/*')
+//     .pipe(ghPages());
+// });
 gulp.task('build', gulp.series([
   'clean',
   'html:build',
@@ -184,7 +185,7 @@ gulp.task('build', gulp.series([
   'root:build',
   'fonts:build',
   'image:build',
-  'deploy'
+  // 'deploy'
 ]));
 gulp.task('watch', function (done) {
   watch([path.watch.html], gulp.series('html:build'));
